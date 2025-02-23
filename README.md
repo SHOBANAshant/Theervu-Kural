@@ -34,8 +34,8 @@ cd Theervu-Kural
 ```
 
 ### **Run the Project**  
-Since it's a static website, just open the `index.html` file in a browser:  
-1. **Double-click** `index.html`  
+Since it's a static website, just open the `landing.html` file in a browser:  
+1. **Double-click** `landing.html`  
 2. Or, if using a local server:  
    
    npx serve
