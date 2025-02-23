@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Nadu Districts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #ead5f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: black;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+        .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card a {
+            display: block;
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <img src="images/logo.png" alt="Theervu Kural Logo">
+          <span>Theervu Kural</span>
+        </div>
+        <nav>
+          <a href="dashboard.html">
+            <img src="images/home.png" alt="Home">
+            Home
+          </a>
+          <a href="gallery.html">
+            <img src="images/gallery.png" alt="Gallery">
+            Gallery
+          </a>
+          <a href="contact.html">
+            <img src="images/contact.png" alt="Contact">
+            Contact
+          </a>
+          <a href="#" onclick="logoutUser()">
+            <img src="images/logout.png" alt="Logout">
+            Logout
+          </a>
+          <a href="profile.html">
+            <img src="images/profilee.png" alt="Profile">
+            Profile
+          </a>
+        </nav>
+      </header>
+    <div class="message-box" id="logout-message"></div>
+    <h1>Tamil Nadu Districts</h1>
+    <div class="container">
+        <div class="card"><a href="cuddalore.html"><img src="https://t3.ftcdn.net/jpg/05/20/19/14/360_F_520191430_ZSp1m3rKa44dUIGPliwNQpZZwhhZhahE.jpg" alt="Cuddalore"><span>Cuddalore</span></a></div>
+        <div class="card"><a href="kallakurichi.html"><img src="https://www.kallakurichi.co.in/wp-content/uploads/2022/02/1596536972_b9fa6cec4683fd548161-768x427.jpg" alt="Kallakurichi"><span>Kallakurichi</span></a></div>
+        <div class="card"><a href="thanjavur.html"><img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2022/01/Trichy-Tamil-Nadu-1.jpg?fit=1024%2C672&ssl=1" alt="Thanjavur"><span>Thanjavur</span></a></div>
+        <div class="card"><a href="trichy.html"><img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2022/01/Trichy-Tamil-Nadu-1.jpg?fit=1024%2C672&ssl=1" alt="Trichy"><span>Trichy</span></a></div>
+        <div class="card"><a href="thiruvallur.html"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Tiruvallur_HD_Image.jpg" alt="Thiruvallur"><span>Thiruvallur</span></a></div>
+        <div class="card"><a href="kanniyakumari.html"><img src="https://media.istockphoto.com/id/1266651691/photo/thiruvalluvar-statue-in-kanyakumari-india.jpg?s=612x612&w=0&k=20&c=ZBv7gC_OmXLLwGi9UCtynxvMIYq7HjUlO8FaeBSGyN0=" alt="Kanniyakumari"><span>Kanniyakumari</span></a></div>
+        <div class="card"><a href="ranipet.html"><img src="https://www.tamilnadutourism.tn.gov.in/img/pages/large-desktop/ranipet-district-1656502686_04f5b44eb7a865f54466.webp" alt="ranipet"><span>Ranipet</span></a></div>
+        <div class="card"><a href="chennai.html"><img src="https://www.shutterstock.com/image-photo/marina-beach-chennai-city-tamil-600nw-1730976055.jpg" alt="Chennai"><span>Chennai</span></a></div>
+        <div class="card"><a href="coimbatore.html"><img src="https://entartica.com/wp-content/uploads/2022/08/8-Best-Places-to-Visit-In-Coimbatore.webp" alt="Coimbatore"><span>Coimbatore</span></a></div>
+    </div>
+    <script>function logoutUser() {
+        // Show custom message
+        const messageBox = document.getElementById("logout-message");
+        messageBox.textContent = "You have been logged out successfully!";
+        messageBox.style.display = "block";
+
+        // Clear any stored user session data
+        localStorage.removeItem("user");
+        sessionStorage.clear();
+
+        // Hide message and redirect after a short delay
+        setTimeout(() => {
+            messageBox.style.display = "none";
+            window.location.href = "landing.html";
+        }, 2000);
+    }</script>
+</body>
+</html>

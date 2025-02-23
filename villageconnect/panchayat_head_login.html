@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('images/logo.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+}
+
+
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .container img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .container input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .container .password-container {
+            position: relative;
+        }
+
+        .container .password-container input {
+            width: 87%;
+        }
+
+        .container .password-container .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+
+        .container button {
+            width: 50%;
+            padding: 5px;
+            margin: 5px 0;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container button:hover {
+            background: #2575fc;
+        }
+
+        .link {
+            color: #6a11cb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.social-login button {
+    flex: 1;
+    margin: 0 2px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: px;
+    font-weight: bold;
+    border: none;
+    border-radius: 2px;
+}
+
+.social-login .facebook {
+    background: #3b5998;
+}
+
+.social-login .google {
+    background: #db4437;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container" id="signup-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/TamilNadu_Logo.svg/1200px-TamilNadu_Logo.svg.png" alt="Logo">
+        <h2>Signup</h2>
+        <input type="text" id="signup-username" placeholder="Username">
+        <div class="password-container">
+            <input type="password" id="signup-password" placeholder="Password">
+            <span class="toggle-password" onclick="togglePassword('signup-password')"></span>
+        </div>
+        <button onclick="signup()">Signup</button>
+        <p>Already have an account? <a href="#" class="link" onclick="showLogin()">Login here</a></p>
+    </div>
+
+    <div class="container" id="login-container" style="display: none;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/TamilNadu_Logo.svg/1200px-TamilNadu_Logo.svg.png" alt="Logo">
+        <h2>Login</h2>
+        <input type="text" id="login-username" placeholder="Username">
+        <div class="password-container">
+            <input type="password" id="login-password" placeholder="Password">
+            <span class="toggle-password" onclick="togglePassword('login-password')"></span>
+        </div>
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" class="link" onclick="showSignup()">Signup here</a></p>
+       
+
+    </div>
+
+    <script>
+        let users = {};
+
+        function signup() {
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (username === '' || password === '') {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            if (users[username]) {
+                alert('Username already exists. Please choose another.');
+                return;
+            }
+
+            users[username] = password;
+            alert('Signup successful! Please login.');
+            showLogin();
+        }
+
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (users[username] && users[username] === password) {
+                alert('Successfully logged in!');
+                window.location.href = "panchayat_head_dashboard.html";
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+        
+
+
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+
+        function showSignup() {
+            document.getElementById('signup-container').style.display = 'block';
+            document.getElementById('login-container').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('signup-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

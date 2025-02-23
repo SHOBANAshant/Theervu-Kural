@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('images/logo.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .container img {
+            width: 120px;
+            margin-bottom: 10px;
+        }
+
+        .container h2 {
+            margin: 10px 0 20px 0;
+            color: #333;
+        }
+
+        .container input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            width: 87%;
+        }
+
+        .password-container .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .container button {
+            width: 100%;
+            padding: 10px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container button:hover {
+            background: #2575fc;
+        }
+
+        .link {
+            color: #6a11cb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .message-box {
+            display: none;
+            padding: 10px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 50%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-box.success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .message-box.error {
+            background: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="message-box" id="customMessage"></div>
+
+    <div class="container" id="signup-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/TamilNadu_Logo.svg/1200px-TamilNadu_Logo.svg.png" alt="Logo">
+        <h2>Signup</h2>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="text" id="signup-username" placeholder="Username" required>
+        <div class="password-container">
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword('signup-password')"></span>
+        </div>
+        <button onclick="signup()">Signup</button>
+        <p>Already have an account? <a href="#" class="link" onclick="showLogin()">Login here</a></p>
+    </div>
+
+    <div class="container" id="login-container" style="display: none;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/TamilNadu_Logo.svg/1200px-TamilNadu_Logo.svg.png" alt="Logo">
+        <h2>Login</h2>
+        <input type="text" id="login-username" placeholder="Username" required>
+        <div class="password-container">
+            <input type="password" id="login-password" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword('login-password')"></span>
+        </div>
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" class="link" onclick="showSignup()">Signup here</a></p>
+    </div>
+
+    <script>
+        function showMessage(message, type) {
+            var msgBox = document.getElementById("customMessage");
+            msgBox.textContent = message;
+            msgBox.className = `message-box ${type}`;
+            msgBox.style.display = "block";
+            setTimeout(() => { msgBox.style.display = "none"; }, 3000);
+        }
+    
+        function signup() {
+            const email = document.getElementById('signup-email').value;
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+    
+            if (!email || !username || !password) {
+                showMessage('Please fill in all fields.', 'error');
+                return;
+            }
+    
+            // Store user details securely (Base64 encoding)
+            localStorage.setItem('email', email);
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', btoa(password)); // Encode password
+    
+            showMessage('Signup successful! Redirecting to login...', 'success');
+            
+            setTimeout(() => { showLogin(); }, 1500); // Redirect to login
+        }
+    
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+    
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = atob(localStorage.getItem('password') || ""); // Decode stored password
+    
+            if (username === storedUsername && password === storedPassword) {
+                showMessage('Successfully logged in!', 'success');
+                
+                setTimeout(() => { window.location.href = "dashboard.html"; }, 1500); // Redirect to dashboard
+            } else {
+                showMessage('Invalid username or password.', 'error');
+            }
+        }
+    
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        }
+    
+        function showSignup() {
+            document.getElementById('signup-container').style.display = 'block';
+            document.getElementById('login-container').style.display = 'none';
+        }
+    
+        function showLogin() {
+            document.getElementById('signup-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'block';
+        }
+    </script>
+    
+</body>
+</html>

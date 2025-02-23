@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Village Event Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .back-button {
+    display: block;
+    margin: 30px auto; /* Centers horizontally */
+    padding: 10px 20px;
+    background-color: #8d1388c0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 20%;
+}
+
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: black;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+
+    .calendar {
+      width: 70%;
+      margin: 50px auto;
+      background: rgb(237, 184, 255);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .calendar-header {
+      background-color: rgb(227, 143, 255);
+      color: white;
+      padding: 10px;
+      font-size: 24px;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .calendar-header button {
+      background-color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .event-title {
+    text-align: center; /* Center the text */
+    font-weight: bold; /* Make text bold */
+    font-size: 32px; /* Increase the size */
+    margin-top: 15px; /* Add some spacing */
+}
+
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background-color: #bacce9;
+      text-align: center;
+      padding: 10px 0;
+      font-weight: bold;
+    }
+
+    .calendar-body {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-gap: 8px;
+      padding: 20px;
+    }
+
+    .day {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .day:hover {
+      background-color: #b5edeb;
+    }
+
+    .calendar .day.empty {
+      background-color: #ffffff;
+    }
+
+    /* Previous & Next month's dates in light color */
+    .day.light-day {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    /* Modal Style */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .modal-header {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .modal-body {
+      font-size: 14px;
+    }
+
+    .close-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .close-btn:hover {
+      background-color: #45a049;
+    }
+   
+
+  .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <img src="images/logo.png" alt="Theervu Kural Logo">
+    <span>Theervu Kural</span>
+    <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+  </div>
+  <nav>
+    <a href="dashboard.html">
+      <img src="images/home.png" alt="Home">
+      Home
+    </a>
+    <a href="gallery.html">
+      <img src="images/gallery.png" alt="Gallery">
+      Gallery
+    </a>
+    <a href="contact.html">
+      <img src="images/contact.png" alt="Contact">
+      Contact
+    </a>
+    <a href="#" onclick="logoutUser()">
+      <img src="images/logout.png" alt="Logout">
+      Logout
+    </a>
+    <a href="profile.html">
+      <img src="images/profilee.png" alt="Profile">
+      Profile
+    </a>
+  </nav>
+</header>
+<div class="message-box" id="logout-message"></div>
+<!-- Event Calendar Title -->
+<div class="event-title">
+    Events Calendar
+  </div>
+<div class="calendar">
+  <div class="calendar-header">
+    <button onclick="prevMonth()">&#9665; Prev</button>
+    <span id="calendarTitle"></span>
+    <button onclick="nextMonth()">Next &#9655;</button>
+  </div>
+  <div class="calendar-days">
+    <div>Sun</div>
+    <div>Mon</div>
+    <div>Tue</div>
+    <div>Wed</div>
+    <div>Thu</div>
+    <div>Fri</div>
+    <div>Sat</div>
+  </div>
+  <div class="calendar-body" id="calendarBody"></div>
+</div>
+
+<!-- Modal for event details -->
+<div id="eventModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <button class="close-btn" onclick="closeModal()">Close</button>
+  </div>
+</div>
+<button class="back-button" onclick="goBack()">Back</button>
+
+<script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இந்தப் பக்கம் கிராம நிகழ்வுகளுக்கான நாட்காட்டி. 
+    இங்கே நீங்கள் முக்கிய நிகழ்வுகளைக் காணலாம். 
+    தேதியை கிளிக் செய்து நிகழ்வு விவரங்களைப் பெறலாம். 
+    நிகழ்வுகள், இடம், நேரம் போன்ற தகவல்களைப் பார்வையிடலாம்.`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        
+        };
+        window.addEventListener("beforeunload", stopSpeech);
+        
+
+  let currentMonth = new Date().getMonth();
+  let currentYear = new Date().getFullYear();
+
+  const events = {
+    "1": { name: "Village Meeting", time: "10 AM", place: "Community Hall" },
+    "5": { name: "Health Camp", time: "9 AM", place: "Village Health Center" },
+    "10": { name: "Festival Celebration", time: "All day", place: "Main Ground" },
+    "15": { name: "Panchayat Meeting", time: "3 PM", place: "Panchayat Office" },
+    "18": { name: "Cow Vaccination", time: "8 AM", place: "Farm Area" },
+    "22": { name: "Polio Immunization", time: "9 AM", place: "Village Clinic" },
+    "20": { name: "Sports Event", time: "10 AM", place: "Sports Ground" },
+    "25": { name: "Cultural Dance Show", time: "7 PM", place: "Cultural Center" },
+    "30": { name: "Public Awareness Campaign", time: "11 AM", place: "Village Square" }
+  };
+  function generateCalendar(month, year) {
+    const calendarBody = document.getElementById("calendarBody");
+    const calendarTitle = document.getElementById("calendarTitle");
+    calendarTitle.innerText = new Date(year, month).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+
+    calendarBody.innerHTML = "";
+    const firstDay = new Date(year, month, 1).getDay(); // Get the day of the week (0-Sunday, 6-Saturday)
+    const daysInMonth = new Date(year, month + 1, 0).getDate(); // Get the number of days in the current month
+    const prevMonthDays = new Date(year, month, 0).getDate(); // Get the number of days in the previous month
+
+    // Calculate the number of days to display from the previous month
+    let prevMonthDaysToDisplay = firstDay; 
+
+    // Display days from the previous month
+    for (let i = prevMonthDays - prevMonthDaysToDisplay + 1; i <= prevMonthDays; i++) {
+        calendarBody.innerHTML += `<div class="day light-day">${i}</div>`;
+    }
+
+    // Display days of the current month
+    for (let day = 1; day <= daysInMonth; day++) {
+        calendarBody.innerHTML += `<div class="day" onclick="showEvent('${day}')">${day}</div>`;
+    }
+
+    // Calculate the number of days to display in the next month
+    let nextMonthDaysToDisplay = 42 - (prevMonthDaysToDisplay + daysInMonth); // 42 is the total number of days in a 6-week calendar
+
+    // Display days of the next month
+    let nextMonthDay = 1;
+    for (let i = 0; i < nextMonthDaysToDisplay; i++) {
+        calendarBody.innerHTML += `<div class="day light-day">${nextMonthDay}</div>`;
+        nextMonthDay++;
+    }
+}
+
+// Initial call to generate the calendar for the current month
+generateCalendar(new Date().getMonth(), new Date().getFullYear());
+
+  function showEvent(day) {
+    const event = events[day];
+    document.getElementById("modalTitle").innerText = event ? event.name : "No events";
+    document.getElementById("modalBody").innerText = event ? `Time: ${event.time}, Place: ${event.place}` : "No events on this day.";
+    document.getElementById("eventModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("eventModal").style.display = "none";
+  }
+
+  function prevMonth() {
+    if (currentMonth === 0) {
+      currentMonth = 11;
+      currentYear--;
+    } else {
+      currentMonth--;
+    }
+    generateCalendar(currentMonth, currentYear);
+  }
+
+  function nextMonth() {
+  if (currentMonth === 11) { // December
+    currentMonth = 0; // January
+    currentYear++;
+  } else {
+    currentMonth++;
+  }
+  generateCalendar(currentMonth, currentYear);
+}
+
+        function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+        function goBack() {
+            window.location.href = "dashboard.html"; // Navigate to poll.html
+        }
+  
+   
+</script>
+
+</body>
+</html>

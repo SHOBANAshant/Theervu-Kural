@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance Suggestion Box</title>
+
+    <style>
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: black;
+      width: 1500px;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #6a11cb;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a0bb5;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            color: #6a11cb;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Cards Section */
+        .cards-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: white;
+            flex: 1;
+            margin: 0 10px;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    transition: transform 0.7s ease-in-out;
+}
+
+.card:hover img {
+    transform: scale(1.9); /* Enlarge the icon when hovered */
+}
+
+        .card h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .card {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+        }
+        .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <img src="images/logo.png" alt="Theervu Kural Logo">
+          <span>Theervu Kural</span>
+          <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+        </div>
+        <nav>
+          <a href="dashboard.html">
+            <img src="images/home.png" alt="Home">
+            Home
+          </a>
+          <a href="gallery.html">
+            <img src="images/gallery.png" alt="Gallery">
+            Gallery
+          </a>
+          <a href="contact.html">
+            <img src="images/contact.png" alt="Contact">
+            Contact
+          </a>
+          <a href="#" onclick="logoutUser()">
+            <img src="images/logout.png" alt="Logout">
+            Logout
+          </a>
+          <a href="profile.html">
+            <img src="images/profilee.png" alt="Profile">
+            Profile
+          </a>
+        </nav>
+      </header>
+      <div class="message-box" id="logout-message"></div>
+    <div class="container">
+        <h1>Grievance Suggestion Box</h1>
+        <form id="grievanceForm">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="grievance">Your Grievance/Suggestion:</label>
+            <textarea id="grievance" name="grievance" placeholder="Enter your grievance or suggestion here..." required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div class="success-message" id="success-message">
+            <p>Your grievance has been submitted successfully!</p>
+        </div>
+        <a href="dashboard.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="cards-container">
+        <div class="card" onclick="location.href='poll.html'">
+            <img src="images/poll.png" alt="Poll">
+            <h3>Poll</h3>
+        </div>
+        
+        <div class="card" onclick="window.open('https://www.tnprivatejobs.tn.gov.in/', '_blank');">
+            <img src="images/job.png" alt="Job Opportunities">
+            <h3>Job Opportunities</h3>
+        </div>
+        
+        
+        <div class="card" onclick="location.href='behaviour_nudge.html'">
+            <img src="images/nudge.png" alt="Behavioural Nudges">
+            <h3>Behavioural Nudges</h3>
+        </div>
+        <div class="card" onclick="location.href='link.html'">
+            <img src="images/link.png" alt="Useful Links">
+            <h3>Useful Links</h3>
+        </div>
+    </div>
+
+    <script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இந்த பக்கம் உங்கள் புகார்கள் மற்றும் பரிந்துரைகளை பதிவு செய்யும் இடமாக உள்ளது. உங்கள் கருத்துகள் எங்கள் சேவையை மேம்படுத்த உதவும்.`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+        window.addEventListener("beforeunload", stopSpeech);
+        // Logout function
+        function logoutUser() {
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "landing.html";
+    }
+}
+        document.getElementById('grievanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const grievance = document.getElementById('grievance').value.trim();
+
+            if (name === '' || email === '' || grievance === '') {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Create a grievance object
+            const grievanceData = {
+                name,
+                email,
+                grievance,
+                submittedAt: new Date().toLocaleString()
+            };
+
+            // Store the grievance in local storage (for demonstration purposes)
+            const grievances = JSON.parse(localStorage.getItem('grievances')) || [];
+            grievances.push(grievanceData);
+            localStorage.setItem('grievances', JSON.stringify(grievances));
+
+            // Show success message
+            document.getElementById('grievanceForm').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        });
+        function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

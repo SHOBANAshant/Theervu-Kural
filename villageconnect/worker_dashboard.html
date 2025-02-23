@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Dashboard</title>
+    <style>
+        .welcome-message {
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #cd83ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 20px;
+            margin-top: -10px;
+            height: 75px;
+            color: black;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header .logo span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6em;
+        }
+
+        nav a img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .issue-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 250px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-y: auto;
+            height: 400px;
+        }
+
+        .issue-menu button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            min-height: 40px;
+            margin-top: 5px;
+        }
+
+        .issue-menu button.active {
+            background-color: #0056b3;
+        }
+
+        .assigned-issues {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background: #28a745;
+            color: white;
+        }
+
+        .complete-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .complete-btn:hover {
+            background: #0056b3;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .reject-btn:hover {
+            background: #c82333;
+        }
+        .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="images/logo.png" alt="Theervu Kural Logo">
+        <span>Theervu Kural</span>
+    </div>
+    <nav>
+        <a href="dashboard.html">
+            <img src="images/home.png" alt="Home">
+            Home
+        </a>
+        <a href="gallery.html">
+            <img src="images/gallery.png" alt="Gallery">
+            Gallery
+        </a>
+        <a href="contact.html">
+            <img src="images/contact.png" alt="Contact">
+            Contact
+        </a>
+        <a href="#" onclick="logoutUser()">
+            <img src="images/logout.png" alt="Logout">
+            Logout
+          </a>
+        <a href="profile.html">
+            <img src="images/profilee.png" alt="Profile">
+            Profile
+        </a>
+    </nav>
+</header>
+<div class="message-box" id="logout-message"></div>
+
+<div class="dashboard-container">
+    <!-- Sidebar for issues -->
+    <div class="issue-menu">
+        <div class="welcome-message" id="welcomeMessage"></div>
+        <div id="issue-buttons"></div>
+    </div>
+
+    <!-- Assigned issues table -->
+    <div class="assigned-issues">
+        <h2>Assigned Issues</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Report ID</th>
+                    <th>Type</th>
+                    <th>Place</th>
+                    <th>Description</th>
+                    <th>Photo</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tasks-table"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let loggedInUser;
+    let currentIssueIndex = 0;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (loggedInUser) {
+            displayAssignedTasks();
+            displayWelcomeMessage(); // Call this function to display the welcome message
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+
+    function displayWelcomeMessage() {
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        welcomeMessage.textContent = `Welcome, ${loggedInUser.name}!`;
+    }
+
+    function displayAssignedTasks() {
+        const issues = JSON.parse(localStorage.getItem('reports')) || [];
+        const assignedIssues = issues.filter(issue => issue.assignedWorkerEmail === loggedInUser.email && issue.status !== 'Completed');
+
+        const issueMenu = document.getElementById('issue-buttons');
+        issueMenu.innerHTML = ''; // Clear previous buttons
+
+        assignedIssues.forEach((issue, index) => {
+            const button = document.createElement('button');
+            button.textContent = `Issue ${index + 1} - ${issue.issueType}`;
+            button.dataset.reportId = issue.reportId;
+            button.addEventListener('click', () => {
+                currentIssueIndex = index;
+                updateTaskTable(assignedIssues[index]);
+                const buttons = issueMenu.querySelectorAll('button');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+            issueMenu.appendChild(button);
+            if (index === 0) {
+                button.classList.add('active');
+                updateTaskTable(assignedIssues[0]);
+            }
+        });
+    }
+
+    function updateTaskTable(issue) {
+        const tableBody = document.getElementById('tasks-table');
+        tableBody.innerHTML = '';
+
+        if (!issue) {
+            tableBody.innerHTML = '<tr><td colspan="8">No tasks assigned.</td></tr>';
+            return;
+        }
+
+        const row = `
+            <tr>
+            <td>${issue.reportId}</td>
+            <td>${issue.issueType}</td>
+            <td>${issue.place}</td>
+            <td>${issue.description}</td>
+            <td><img src="${issue.images[0] || 'https://via.placeholder.com/100'}" style="width: 100px;"></td>
+            <td>${issue.status}</td>
+            <td>
+                <button class="complete-btn" onclick="markCompleted('${issue.reportId}')">Complete</button>
+                <button class="reject-btn" onclick="rejectTask('${issue.reportId}')">Reject</button>
+            </td>
+        </tr>
+    `;
+        tableBody.innerHTML = row;
+    }
+
+    function markCompleted(reportId) {
+        let issues = JSON.parse(localStorage.getItem('reports')) || [];
+        const index = issues.findIndex(issue => issue.reportId === reportId);
+
+        if (index !== -1) {
+            issues[index].status = 'Completed';
+            localStorage.setItem('reports', JSON.stringify(issues));
+            alert(`Issue ${reportId} marked as completed.`);
+            displayAssignedTasks();
+        }
+    }
+
+    function rejectTask(reportId) {
+    let issues = JSON.parse(localStorage.getItem('reports')) || [];
+    const index = issues.findIndex(issue => issue.reportId === reportId);
+
+    if (index !== -1) {
+        issues[index].status = 'Pending Assignment';
+        localStorage.setItem('reports', JSON.stringify(issues));
+        alert(`Issue ${reportId} rejected.`);
+        displayAssignedTasks(); // Update task list
+        updateTaskTable(null); // Clear task display after rejection
+    }
+}
+function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+</script>
+
+</body>
+</html>

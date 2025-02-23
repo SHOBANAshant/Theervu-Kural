@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+       
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color:#fcfcfc;
+        }
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #custom-project {
+            display: none; /* Hidden by default */
+        }
+        button {
+            background-color: #b7a9bc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #efd7fa;
+        }
+   header {
+    background: #cd83ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    color: black;
+    position: fixed; /* Makes the header stick at the top */
+    width: 100%; /* Ensures the header spans the full width of the page */
+    top: 0;
+    z-index: 1000; /* Keeps the header above all other elements */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .logo img {
+    height: 40px;
+    width: 40px; /* Keeps the logo proportional */
+    border-radius: 50%; /* Makes the logo circular */
+}
+
+header .logo span {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 15px; /* Adjust spacing between navigation links */
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-size: 0.9em; /* Adjusts font size */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+nav a img {
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+nav a:hover {
+    color: #6a1b9a; /* Changes link color on hover */
+}
+
+/* Reset margins for body and html */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Update header styles */
+header {
+    background: #cd83ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    width: 100%; /* Stretch to full page width */
+    color: black;
+    box-sizing: border-box; /* Includes padding in the width */
+}
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+
+        /* Logo & Title */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px; /* Small Logo */
+            width: auto;
+            border-radius: 50%;
+        }
+
+        .logo span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* 🔹 Navigation Icons */
+       
+        /* 🔹 Main Content Wrapper */
+        .main {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 40px; /* Allow content to grow naturally */
+}
+
+        /* 🔹 Funding Section */
+        
+        .funding-text {
+    max-width: 600px;
+    text-align: left;
+    min-width: 300px;
+    flex: 1;
+    padding: 20px;
+    margin-left: -10px; /* Adjust as needed */
+}
+
+
+        .funding-text h1 {
+            font-size: 30px;
+            color: #3d3d3d;
+            margin-bottom: 10px;
+            text-align:center;
+            margin-left: -300px;
+            margin-bottom: 20px;
+        }
+
+        .funding-text p {
+            font-size: 20px;
+            color: #6d6d6d;
+            margin-bottom: 20px;
+            margin-left: -35px;
+            margin-bottom: 5px;
+        }
+
+       
+
+        .funding-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 🔹 Project Section */
+        .projects {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 150px; /* Adjust the gap for better fit */
+    margin-top: 20px;
+    max-width: 100%;
+    padding: 20px;
+}
+
+
+
+
+.project-card {
+    background: linear-gradient(135deg, #f1f1f1, #dad9db);
+    padding: 20px;
+    width: 300px;
+    height: 400px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-link {
+    text-decoration: none;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-card img {
+    width: 150px; /* Increased image size */
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+
+.project-card h3 {
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+}
+
+.project-card p {
+    font-size: 14px;
+    color: white;
+    opacity: 0.9;
+    padding: 0 10px;
+}
+
+
+
+/* Card Colors Based on Category */
+.project-card:nth-child(1) {
+    background: linear-gradient(135deg,  #e0dee1, #e0dee1);
+}
+
+
+
+        /* 🔹 Responsive Design */
+        @media (max-width: 768px) {
+            .funding-section {
+                flex-direction: column;
+                text-align: center;
+            }
+           
+            
+}
+
+/* 🔹 Updated Funding Section with Gradient */
+.funding-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    max-width: 1200px;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, #fffcfe, #fffeff);
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    width: 100%;
+}
+
+.funding-text {
+    max-width: 600px;
+    text-align: left;
+    min-width: 300px;
+    flex: 1;
+    padding: 20px;
+    margin-left: -10px;
+}
+
+.funding-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 5px solid #e4d8b4;
+    overflow: hidden;
+    flex: 1;
+    max-width: 350px;
+}
+
+
+.funding-text, .funding-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.funding-text {
+    max-width: 600px; /* Adjust text box width */
+    text-align: left;
+    padding: 20px;
+}
+
+
+
+.funding-section {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between; /* Ensures space between text and image */
+}
+     
+.funding-icon img {
+    width: 200px;  
+    height: 180px;  
+    display: block;
+    opacity: 0.5;
+    /* margin: auto;  remove this */
+    margin-left:300px; /* use a smaller value for a slight shift */
+}
+
+
+.highlight-text {
+    font-weight: bold;
+    font-size: 50px;
+  
+}
+p {
+    margin-top: 30px; /* Space between funding box and "Choose a project..." */
+}
+
+
+
+
+
+.message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    
+    <!-- 🔹 Updated Header -->
+    <header>
+        <div class="logo">
+          <img src="images/logo.png" alt="Theervu Kural Logo">
+          <span>Theervu Kural</span>
+          <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+        </div>
+        <nav>
+          <a href="dashboard.html">
+            <img src="images/home.png" alt="Home">
+            Home
+          </a>
+          <a href="gallery.html">
+            <img src="images/gallery.png" alt="Gallery">
+            Gallery
+          </a>
+          <a href="contact.html">
+            <img src="images/contact.png" alt="Contact">
+            Contact
+          </a>
+          <a href="#" onclick="logoutUser()">
+            <img src="images/logout.png" alt="Logout">
+            Logout
+          </a>
+          <a href="profile.html">
+            <img src="images/profilee.png" alt="Profile">
+            Profile
+          </a>
+        </nav>
+      </header>
+      <div class="message-box" id="logout-message"></div>
+
+
+ 
+    
+    
+
+    <!-- 🔹 Main Content -->
+    
+    <div class="main">
+        <!-- Funding Section -->
+        <div class="funding-section">
+            <div class="funding-text">
+                <h1 style="text-align: center; margin-top: 20px; font-size: 30px; color: #3d3d3d;">Funding for Projects</h1>
+                
+                <p>Your contribution can help improve infrastructure and living conditions in your village.</p>
+                   
+                    <!-- 🔹 Icon Below Paragraph -->
+    <div class="funding-icon">
+        <img src="images/saving.png" alt="Funding Image">
+        
+    </div>
+
+                
+            </div>
+            <div class="funding-image">
+                <img src="images/money.png" alt="Funding Image">
+            </div>
+        </div>
+
+        <!-- Project Categories -->
+        <!-- Project Categories -->
+<p style="font-weight: bold; font-size: 18px;">
+    Choose a project and donate today.
+  </p>
+  
+         
+
+  <div class="projects">
+    <a href="crowdsourced_funding.html?fundType=Road Repair" class="project-link">
+        <div class="project-card">
+            <img src="images/road repair.png" alt="Road Repair">
+            <h3>Road Repair Project</h3>
+            <p>"Support our road repair project to ensure safer and smoother journeys for everyone!"</p>
+        </div>
+    </a>
+    <a href="crowdsourced_funding.html?fundType=Community Health" class="project-link">
+        <div class="project-card">
+            <img src="images/community.png" alt="Community Health">
+            <h3>Community Health Center</h3>
+            <p>"Help us build a community health center to provide accessible and quality healthcare for all!"</p>
+        </div>
+    </a>
+    <a href="crowdsourced_funding.html?fundType=Water Supply" class="project-link">
+        <div class="project-card">
+            <img src="images/water.png" alt="Water Supply">
+            <h3>Water Supply System Enhancement</h3>
+            <p>"Support our project to enhance the water supply system for clean and reliable water access!"</p>
+        </div>
+    </a>
+    <a href="crowdsourced_funding.html?fundType=Divine Premises" class="project-link">
+        <div class="project-card">
+            <img src="images/temple.png" alt="Divine Premises">
+            <h3>Divine Premises Enhancement</h3>
+            <p>"Contribute to enhancing our divine premises for a more serene and spiritual environment!"</p>
+        </div>
+    </a>
+    <a href="crowdsourced_funding.html?fundType=Green Spaces" class="project-link">
+        <div class="project-card">
+            <img src="images/greenspace.png" alt="Green Spaces">
+            <h3>Green Spaces Development</h3>
+            <p>"Support the development of green spaces for a healthier, greener, and more vibrant community!"</p>
+        </div>
+    </a>
+    <a href="crowdsourced_funding.html?fundType=Others" class="project-link">
+        <div class="project-card">
+            <img src="images/image.png" alt="Others">
+            <h3>Others</h3>
+            <p>"Contribute to various community projects that make a meaningful difference!"</p>
+        </div>
+    </a>
+</div>
+
+        </div>
+    </div>
+    
+
+
+    <script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `வணக்கம்! இந்த பக்கம், உங்கள் கிராமத்தின் முக்கிய திட்டங்களுக்கு நிதி உதவி பெற உதவுகிறது. சாலை பராமரிப்பு, சுகாதார மையம், நீர்த்தேக்கம் மற்றும் பசுமை மேம்பாடு போன்ற திட்டங்களில் உதவி செய்யலாம்.`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+    
+        window.addEventListener("beforeunload", stopSpeech);
+       
+    function logoutUser() {
+        if (confirm("Are you sure you want to log out?")) {
+            window.location.href = "landing.html"; // Redirects to landing page
+        }
+    }
+
+
+        function redirectToFunding(projectName) {
+        window.location.href = "crowdsourced_funding.html?fundType=" + encodeURIComponent(projectName);
+    }
+    function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+    </script>
+    
+
+</body>
+</html>

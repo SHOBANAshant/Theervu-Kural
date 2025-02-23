@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #cd83ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            color: black;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header .logo span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6em;
+        }
+
+        nav a img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 60px auto 20px;
+            background: rgb(228, 164, 220);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto 10px;
+            border: 2px solid #ddd;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[readonly] {
+            background-color: #f8f9fa;
+            cursor: default;
+        }
+
+        .forbidden-sign {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: red;
+            font-size: 14px;
+            transform: translate(-50%, -50%);
+            visibility: hidden;
+        }
+
+        .form-group:hover .forbidden-sign {
+            visibility: visible;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .edit-btn {
+            background: #ff9f43;
+            color: white;
+        }
+
+        .save-btn {
+            background: #10ac84;
+            color: white;
+            display: none;
+        }
+
+        .message-box {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    background: #dff0d8;  /* Light green background */
+    color: green;  /* Green text */
+    text-align: center;
+    font-size: 16px;
+    display: none;  /* Initially hidden */
+}
+
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="images/logo.png" alt="Village Connect Logo">
+        <span>Theervu Kural</span>
+    </div>
+    <nav>
+        <a href="dashboard.html">
+            <img src="images/home.png" alt="Home">
+            <span>Home</span>
+        </a>
+        <a href="gallery.html">
+            <img src="images/gallery.png" alt="Gallery">
+            <span>Gallery</span>
+        </a>
+        <a href="contact.html">
+            <img src="images/contact.png" alt="Contact">
+            <span>Contact</span>
+        </a>
+        <a href="#" onclick="logout()">
+            <img src="images/logout.png" alt="Logout">
+            <span>Logout</span>
+        </a>
+        <a href="profile.html">
+            <img src="images/profilee.png" alt="Profile">
+            <span>Profile</span>
+        </a>
+    </nav>
+</header>
+
+<!-- Custom message box at the top -->
+<div class="message-box" id="customMessageBox">
+    Profile updated successfully!
+</div>
+
+<div class="container">
+    <h2> User Profile</h2>
+
+    <!-- Profile Image -->
+    <img src="https://via.placeholder.com/100" id="profileImage" alt="Profile Picture" class="profile-img">
+    <input type="file" id="imageInput" accept="image/*">
+
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" id="email" readonly>
+        <span class="forbidden-sign">🚫</span>
+    </div>
+
+    <div class="form-group">
+        <label>Username:</label>
+        <input type="text" id="username" readonly>
+        <span class="forbidden-sign">🚫</span>
+    </div>
+
+    <div class="form-group">
+        <label>Bio:</label>
+        <textarea id="bio" rows="3" disabled></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Location:</label>
+        <input type="text" id="location" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Occupation:</label>
+        <input type="text" id="occupation" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Community Role:</label>
+        <input type="text" id="role" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Aadhar Number:</label>
+        <input type="text" id="aadhar" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Family Members:</label>
+        <textarea id="familyMembers" rows="3" disabled></textarea>
+    </div>
+
+    <div class="buttons">
+        <button class="edit-btn" onclick="enableEdit()">Edit</button>
+        <button class="save-btn" onclick="saveProfile()">Save</button>
+    </div>
+
+    <p class="message" id="message"></p>
+</div>
+
+<script>
+    window.onload = function() {
+        if (!localStorage.getItem('username')) {
+            window.location.href = "landing.html";
+        } else {
+            document.getElementById('email').value = localStorage.getItem('email') || "";
+            document.getElementById('username').value = localStorage.getItem('username') || "";
+            document.getElementById('bio').value = localStorage.getItem('bio') || "";
+            document.getElementById('location').value = localStorage.getItem('location') || "";
+            document.getElementById('occupation').value = localStorage.getItem('occupation') || "";
+            document.getElementById('role').value = localStorage.getItem('role') || "";
+            document.getElementById('aadhar').value = localStorage.getItem('aadhar') || "";
+            document.getElementById('familyMembers').value = localStorage.getItem('familyMembers') || "";
+
+            let savedImage = localStorage.getItem('profileImage');
+            if (savedImage) {
+                document.getElementById('profileImage').src = savedImage;
+            }
+        }
+    }
+
+    document.getElementById('profileImage').addEventListener('click', function() {
+        document.getElementById('imageInput').click();
+    });
+
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result;
+                localStorage.setItem('profileImage', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function enableEdit() {
+        document.querySelectorAll("input:not([readonly]), textarea").forEach(field => field.removeAttribute("disabled"));
+        document.querySelector(".edit-btn").style.display = "none";
+        document.querySelector(".save-btn").style.display = "inline-block";
+    }
+
+    function saveProfile() {
+        localStorage.setItem('bio', document.getElementById('bio').value);
+        localStorage.setItem('location', document.getElementById('location').value);
+        localStorage.setItem('occupation', document.getElementById('occupation').value);
+        localStorage.setItem('role', document.getElementById('role').value);
+        localStorage.setItem('aadhar', document.getElementById('aadhar').value);
+        localStorage.setItem('familyMembers', document.getElementById('familyMembers').value);
+        showMessage("Profile updated successfully!", "success");
+    }
+
+    function showMessage(message, type) {
+        var msgBox = document.getElementById("message");
+        msgBox.textContent = message;
+        msgBox.style.color = type === "success" ? "green" : "red";
+        msgBox.style.display = "block";
+
+        setTimeout(() => {
+            msgBox.style.opacity = "0";
+        }, 2000);
+
+        setTimeout(() => {
+            msgBox.style.display = "none";
+            msgBox.style.opacity = "1";
+        }, 3000);
+
+        document.getElementById("customMessageBox").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("customMessageBox").style.display = "none";
+        }, 3000);
+    }
+
+    function logout() {
+    localStorage.removeItem('username');
+    localStorage.removeItem('profileImage');
+    // Show the logout message
+    document.getElementById('messageBox').style.display = 'block';
+    
+    // Redirect after a short delay to allow the message to be seen
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 2000);
+}
+
+</script>
+
+</body>
+</html>

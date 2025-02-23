@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: rgb(191, 225, 237);
+        }
+
+        header {
+            background: #d79cff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            color: black;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header .logo span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6em;
+        }
+
+        nav a img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .card {
+            background: rgb(232, 199, 243);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: black;
+            display: flex;
+            gap: 30px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: auto;
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        /* Floating Image in the Corner */
+        .floating-image {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .floating-image:active {
+            transform: scale(1.5);
+        }
+
+        /* Click icons container */
+        .click-icons {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .click-icons img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .click-icons img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Info Form Styling */
+        .info-form-container {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 300px;
+        }
+
+        .info-form-container h3 {
+            margin-top: 0;
+        }
+
+        .info-form-container label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .info-form-container input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .info-form-container button {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .info-form-container button:hover {
+            background: #0056b3;
+        }
+        .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இது உங்கள் கிராமம் பற்றிய தகவல்களை வழங்கும் சிறப்பு தரவு தளம்.
+                        இங்கு நீங்கள் புகார்கள் பதிவு செய்யலாம், புகார் நிலையை கண்காணிக்கலாம்.
+                        கிராம நிகழ்வுகளைப் பற்றிய தகவல்களைப் பெறலாம்.
+                        கிராம அபிவிருத்திக்கு நிதி வழங்கலாம்.
+                        உங்கள் ஆதரவை வழங்க மற்றும் தொடர்பு கொள்ள உங்கள் தகவல்களை பகிரலாம்.`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+    
+        window.addEventListener("beforeunload", stopSpeech);
+        
+        function toggleIcons() {
+            const iconsContainer = document.querySelector('.click-icons');
+            iconsContainer.style.display = iconsContainer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function showInfoForm() {
+            document.querySelector('.info-form-container').style.display = 'block';
+        }
+
+        function sendCallbackRequest() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const message = `Name: ${name}, Phone: ${phone}`;
+
+            if (!name || !phone) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Prepare the email body
+            const emailSubject = "Callback Request from Village Dashboard";
+            const emailBody = `You have received a callback request. \n\nName: ${name} \nPhone: ${phone}`;
+            const mailtoLink = `mailto:shobanavelmurugan7@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+            // Use the mailto link to send the email
+            window.location.href = mailtoLink;
+
+            // Provide feedback to the user
+            alert(`Callback request sent to email: ${message}`);
+
+            // Hide the info form after sending the request
+            document.querySelector('.info-form-container').style.display = 'none';
+        }
+        function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Theervu Kural Logo">
+            <span>Theervu Kural</span>
+            <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+        </div>
+        <nav>
+            <a href="index.html">
+                <img src="images/home.png" alt="Home">
+                Home
+            </a>
+            <a href="gallery.html">
+                <img src="images/gallery.png" alt="Gallery">
+                Gallery
+            </a>
+            <a href="contact.html">
+                <img src="images/contact.png" alt="Contact">
+                Contact
+            </a>
+            <a href="#" onclick="logoutUser()">
+                <img src="images/logout.png" alt="Logout">
+                Logout
+              </a>
+             <a href="profile.html">
+                <img src="images/profilee.png" alt="Profile">
+                Profile
+            </a>
+        </nav>
+    </header>
+    <div class="message-box" id="logout-message"></div>
+    <div class="container">
+        <div class="card" onclick="location.href='report_issue.html'">
+            <img src="images/reportissue.png" alt="Report an Issue">
+            <h2>Report an Issue</h2>
+            <p>Start a new issue report and notify the concerned authorities.</p>
+        </div>
+        <div class="card" onclick="location.href='track_report.html'">
+            <img src="images/trackreport.png" alt="Track Reports">
+            <h2>Track Your Reports</h2>
+            <p>Enter your report ID to see the status of your submissions.</p>
+        </div>
+        <div class="card" onclick="location.href='event.html'">
+            <img src="images/villagevent.png" alt="Village Events">
+            <h2>Village Events</h2>
+            <p>Check out upcoming events in your village.</p>
+        </div>
+        <div class="card" onclick="location.href='file_grievance.html'">
+            <img src="images/grievance_suggestion.png" alt="Grievance Suggestion">
+            <h2>Grievance Suggestion Box</h2>
+            <p>Propose ideas to improve village infrastructure.</p>
+        </div>
+        <div class="card" onclick="location.href='site.html'">
+            <img src="images/volunteers.png" alt="Behavioral Nudges">
+            <h2>Site Map</h2>
+            <p>Our sitemap provides district-wise 
+                geographic details</p>
+        </div>
+        <div class="card" onclick="location.href='Funding.html'">
+            <img src="images/funding.png" alt="Funding for Projects">
+            <h2>Funding for Projects</h2>
+            <p>Contribute to improve infrastructure.</p>
+        </div>
+    </div>
+
+    <!-- Click icons for the floating image -->
+    <div class="click-icons">
+        <img src="images/icon 2.png" alt="Help Icon" onclick="location.href='emergency report.html'">
+        <img src="images/icon 1.png" alt="Info Icon" onclick="showInfoForm()">
+    </div>
+
+    <!-- Info Form -->
+    <div class="info-form-container">
+        <h3>Request a Callback</h3>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your mobile number">
+        <button onclick="sendCallbackRequest()">Request a Callback</button>
+    </div>
+
+    <!-- Floating Image -->
+    <img src="https://cdn-icons-png.flaticon.com/512/4325/4325999.png" alt="Floating Icon" class="floating-image" onclick="toggleIcons()">
+</body>
+</html>

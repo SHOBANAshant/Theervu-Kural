@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Grama Sabai Date</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dfb1f6;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .poll-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: auto;
+            height: 500px;
+        }
+
+        h2 {
+            font-size: 32px;
+        }
+
+        p {
+            font-size: 22px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Spacing between buttons */
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 20px;
+            flex: 1; /* Make buttons evenly spaced */
+            max-width: 200px; /* Prevent them from getting too big */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #chart-container {
+            margin-top: 30px;
+            max-width: 100%;
+            height: 300px; /* Set the desired height for the chart */
+        }
+
+        canvas {
+            width: 100%; /* Ensure canvas uses full width */
+            height: 100% !important; /* Make the height 100% of the container */
+        }
+
+        .back-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal (Popup) Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .thank-you-message {
+            font-size: 24px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Choose the Date for Grama Sabai</h2>
+    <div class="poll-container">
+        <p>Select one of the dates below:</p>
+        <div class="button-container" id="button-container">
+            <button onclick="vote(1)" id="feb10">February 10, 2024</button>
+            <button onclick="vote(2)" id="march5">March 5, 2024</button>
+            <button onclick="vote(3)" id="march20">March 20, 2024</button>
+        </div>
+
+        <div id="chart-container">
+            <canvas id="pollChart"></canvas>
+        </div>
+    </div>
+
+    <button class="back-button" id="backButton" onclick="goToPoll()">Back to Poll</button>
+
+    <!-- Modal for "Thanks for Polling" -->
+    <div id="thanksModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p class="thank-you-message">Thanks for polling!</p>
+        </div>
+    </div>
+
+    <script>
+        function goToPoll() {
+            window.location.href = "poll.html"; // Redirect to poll.html
+        }
+
+        let votes = [0, 0, 0]; // Initial votes for each option
+        let hasVoted = false; // Track if the user has voted
+
+        function vote(option) {
+            if (hasVoted) {
+                return; // If already voted, do nothing
+            }
+
+            votes[option - 1] += 1; // Increment vote count
+            localStorage.setItem("pollVotes", JSON.stringify(votes)); // Store votes
+            renderChart(); // Update chart
+
+            // Disable all buttons, show the popup, and enable the "Back to Poll" button
+            disableButtons();
+            showModal();
+            enableBackButton(); // Enable "Back to Poll" button after voting
+            hasVoted = true; // Mark as voted
+        }
+
+        function disableButtons() {
+            const buttons = document.querySelectorAll("button");
+            buttons.forEach(button => {
+                button.disabled = true; // Disable all buttons
+                button.style.backgroundColor = "#ccc"; // Change button color
+                button.style.cursor = "not-allowed"; // Change cursor to indicate disabled state
+            });
+        }
+
+        function enableBackButton() {
+            const backButton = document.getElementById("backButton");
+            backButton.disabled = false; // Enable the "Back to Poll" button
+            backButton.style.backgroundColor = "#007BFF"; // Reset color to original
+            backButton.style.cursor = "pointer"; // Change cursor back to pointer
+        }
+
+        function renderChart() {
+            let ctx = document.getElementById("pollChart").getContext("2d");
+
+            if (window.myChart) {
+                window.myChart.destroy(); // Destroy previous chart before re-rendering
+            }
+
+            window.myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["February 10", "March 5", "March 20"],
+                    datasets: [{
+                        label: "Votes",
+                        data: votes,
+                        backgroundColor: ["#FF5733", "#33FF57", "#3357FF"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 18
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 18
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 20
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function showModal() {
+            document.getElementById("thanksModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("thanksModal").style.display = "none";
+        }
+
+        // Load stored votes if available
+        let storedVotes = localStorage.getItem("pollVotes");
+        if (storedVotes) {
+            votes = JSON.parse(storedVotes);
+        }
+        renderChart();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribute to Village Projects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #dbbed9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: black;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+
+    .main {
+      padding: 20px;
+      margin-top: 5px;
+    }
+
+    .card {
+      background: white;
+      width: 700px;
+      height: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 50px auto;
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 95%;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .form-group button {
+      background: #b450f7;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      width: 100%;
+    }
+
+    .success-message {
+      margin-top: 20px;
+      color: green;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    #custom-project {
+      display: none;
+    }
+    .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <img src="images/logo.png" alt="Theervu Kural Logo">
+    <span>Theervu Kural</span>
+    <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+  </div>
+  <nav>
+    <a href="dashboard.html">
+      <img src="images/home.png" alt="Home">
+      Home
+    </a>
+    <a href="gallery.html">
+      <img src="images/gallery.png" alt="Gallery">
+      Gallery
+    </a>
+    <a href="contact.html">
+      <img src="images/contact.png" alt="Contact">
+      Contact
+    </a>
+    <a href="#" onclick="logoutUser()">
+      <img src="images/logout.png" alt="Logout">
+      Logout
+    </a>
+    <a href="profile.html">
+      <img src="images/profilee.png" alt="Profile">
+      Profile
+    </a>
+  </nav>
+</header>
+<div class="message-box" id="logout-message"></div>
+
+<div class="main">
+  <div class="card">
+    <div class="contribution-header">
+      <h1>Make a Difference in Your Village!</h1>
+    </div>
+    <form id="contribution-form">
+      <div class="form-group">
+        <label for="fundType">Selected Project:</label>
+        <input type="text" id="fundType" readonly>
+      </div>
+
+      <div class="form-group" id="custom-project">
+        <label for="custom-project-name">Enter Your Project:</label>
+        <input type="text" id="custom-project-name" name="custom-project-name" placeholder="Enter project name">
+      </div>
+
+      <div class="form-group">
+        <label for="funder-name">Funder Name:</label>
+        <input type="text" id="funder-name" name="funder-name" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone-number">Phone Number:</label>
+        <input type="text" id="phone-number" name="phone-number" placeholder="Enter phone number" required>
+      </div>
+      <div class="form-group">
+        <label for="amount">Amount to Contribute:</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" id="submit-button">Contribute Now</button>
+      </div>
+    </form>
+    <div id="success-message" class="success-message" style="display:none;">Redirecting to Payment Methods...</div>
+  </div>
+</div>
+
+<script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இந்த பக்கம் உங்கள் கிராம வளர்ச்சிக்கு பங்காற்றும் வாய்ப்பை வழங்குகிறது. இதில், திட்டத்திற்கு நன்கொடையை வழங்கி, உங்கள் கிராமத்தின் முன்னேற்றத்திற்கு உதவ முடியும்.`;
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+        window.addEventListener("beforeunload", stopSpeech);
+        
+  // Get URL parameters
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  // Handle form and fundType visibility
+  window.onload = function () {
+    const fundType = getQueryParam('fundType');
+    const fundTypeInput = document.getElementById('fundType');
+    const customProjectDiv = document.getElementById('custom-project');
+    const customProjectInput = document.getElementById('custom-project-name');
+
+    if (fundType) {
+      if (fundType === "Others") {
+        fundTypeInput.value = "Others";
+        customProjectDiv.style.display = "block";
+        customProjectInput.setAttribute("required", "true");
+      } else {
+        fundTypeInput.value = fundType;
+        customProjectDiv.style.display = "none";
+        customProjectInput.removeAttribute("required");
+      }
+    }
+  };
+
+  // Razorpay payment integration
+  document.getElementById('contribution-form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    const funderName = document.getElementById('funder-name').value;
+    const phoneNumber = document.getElementById('phone-number').value;
+    const amount = document.getElementById('amount').value * 100; // Razorpay expects amount in paise
+    const customProjectInput = document.getElementById('custom-project-name');
+    const projectName = document.getElementById('fundType').value === "Others" 
+                        ? customProjectInput.value 
+                        : document.getElementById('fundType').value;
+
+    const options = {
+      "key": "rzp_test_kYn00IKKe506RT", // Replace with your Razorpay key
+      "amount": amount,
+      "currency": "INR",
+      "description": projectName,
+      "prefill": {
+        "name": funderName,
+        "contact": phoneNumber
+      },
+      "handler": function (response) {
+        const paymentDetails = {
+      transactionId: response.razorpay_payment_id,
+      amount: amount / 100, // Convert paise back to rupees
+      currency: "INR",
+      funderName: funderName,
+      project: projectName,
+      date: new Date().toLocaleString() // Add current date and time
+    };
+    let paymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+    paymentHistory.push(paymentDetails);
+        alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+        localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
+        
+      },
+      "modal": {
+        "ondismiss": function () {
+          alert("Payment canceled by the user.");
+        }
+      }
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+  });
+
+  function logout() {
+    if (confirm("Are you sure you want to log out?")) {
+      window.location.href = "landing.html";
+    }
+  }
+  function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+  
+</script>
+</body>
+</html>

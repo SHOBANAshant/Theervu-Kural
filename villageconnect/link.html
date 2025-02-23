@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Tamil Nadu Websites</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #cd83ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header .logo span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6em;
+        }
+
+        nav a img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .search-bar {
+            text-align: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .search-bar input[type="text"] {
+            width: 80%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #suggestions {
+            position: absolute;
+            top: 55px;
+            left: 10%;
+            width: 80%;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        #suggestions a {
+            display: block;
+            padding: 5px 10px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        #suggestions a:hover {
+            background-color: #f0f0f0;
+        }
+
+        main {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+
+        .website-link {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .website-link a {
+            display: inline;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .website-link img {
+            width: 40px;
+            height: 40px;
+            margin-right: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .website-link:hover img {
+            transform: scale(1.1);
+        }
+
+        /* KEY CHANGE: Target only .website-link inside main */
+        main .website-link:hover::after {
+            content: attr(data-description);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(38, 38, 38, 0.7); /* Or your desired color */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: normal;
+            word-wrap: break-word;
+            box-sizing: border-box;
+            border-radius: 20px;
+        }
+        .website-link {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.website-link a {
+    display: inline;
+    color: #007bff;
+    text-decoration: none;
+    position: relative;
+    z-index: 2; /* Ensure the link is on top */
+}
+
+.website-link img {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+
+.website-link:hover img {
+    transform: scale(1.1);
+}
+
+/* Adjust the z-index on the ::after pseudo-element */
+.main .website-link:hover::after {
+    content: attr(data-description);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(38, 38, 38, 0.7); /* Black hover */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: normal;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    border-radius: 20px;
+    z-index: 1; /* Set the z-index lower than the link */
+}
+
+.website-link:hover::after {
+    opacity: 1;
+}
+
+        .website-link:hover::after {
+            opacity: 1;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        /* Adjusting the back arrow size and positioning */
+.back-icon {
+    width: 20px; /* Smaller icon */
+    height: 20px; /* Keep the aspect ratio */
+    margin-left: 10px; /* Move the icon slightly to the left */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar .back-arrow {
+    margin-right: 10px; /* Space between the icon and the search input */
+}
+
+        main .website-link:hover::after {
+            content: attr(data-description);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(38, 38, 38, 0.7); /* Black hover */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: normal;
+            word-wrap: break-word;
+            box-sizing: border-box;
+            border-radius: 20px;
+        }
+
+        main .website-link:hover::after {
+            opacity: 1;
+        }
+        .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        /* ... (rest of your CSS styles) ... */
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Theervu Kural Logo">
+            <span>Theervu Kural</span>
+        </div>
+        <nav>
+            <a href="dashboard.html">
+                <img src="images/home.png" alt="Home">
+                Home
+            </a>
+            <a href="gallery.html">
+                <img src="images/gallery.png" alt="Gallery">
+                Gallery
+            </a>
+            <a href="contact.html">
+                <img src="images/contact.png" alt="Contact">
+                Contact
+            </a>
+            <a href="#" onclick="logoutUser()">
+                <img src="images/logout.png" alt="Logout">
+                Logout
+              </a>
+            <a href="profile.html">
+                <img src="images/profilee.png" alt="Profile">
+                Profile
+            </a>
+        </nav>
+    </header>
+    <div class="message-box" id="logout-message"></div>
+    <section class="search-bar">
+        <a href="grievance.html" class="back-arrow">
+            <img src="images/back.png" alt="Back" class="back-icon">
+        </a>
+        <input type="text" id="searchBox" placeholder="Keyword Type to search">
+        <button onclick="performSearch()">Search</button>
+        <div id="suggestions"></div>
+    </section>
+    
+    
+
+
+    <main>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Tamil Nadu Travelling Allowance Rules">
+            <a href="https://cms.tn.gov.in/cms_migrated/document/rules_regulations/TA-Rules-2005.pdf" target="_blank">The Tamil Nadu Travelling Allowance Rules - 2006</a> 
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="National Human Rights Commission">
+            <a href="https://nhrc.nic.in/" target="_blank">National Human Rights Commission</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="TN Newsprint and Papers Limited">
+            <a href="http://www.tnpl.com/" target="_blank">Tamil Nadu Newsprint And Papers Limited (TNPL)</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="TIDCO">
+            <a href="https://tidco.com/" target="_blank">Tamil Nadu Industrial Development Corporation (TIDCO)</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Third State Finance Commission">
+            <a href="https://financedept.tn.gov.in/en/" target="_blank">Third State Finance Commission - Explanatory Memorandum On The ATR</a>  </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Handlooms, Handicrafts...">
+            <a href="https://www.tnhandlooms.tn.gov.in/english/" target="_blank">Handlooms, Handicrafts, Textiles And Khadi Department</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="TN State Election Commission">
+            <a href="https://tnsec.tn.gov.in/" target="_blank">Tamil Nadu State Election Commission - Rural Development And Panchayat Raj Dept</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Ministry Of Women and Child Development">
+            <a href="https://wcd.gov.in/" target="_blank">Ministry Of Women And Child Development</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Department Of Education">
+            <a href="https://www.education.gov.in/" target="_blank">Department Of Education, Govt Of India</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Ministry Of Environment and Forests">
+            <a href="https://moef.gov.in/" target="_blank">Ministry Of Environment And Forests</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="TNEB">
+            <a href="https://www.tnelb.gov.in/" target="_blank">Tamil Nadu Electricity Board (TNEB)</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="TN Small Industries Development Corporation">
+            <a href="https://tansidco.org/" target="_blank">TN Small Industries Development Corporation (SIDCO)</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Third State Finance Commission (Rural Dev)">
+            <a href="https://tnrd.tn.gov.in/panchayatraj_inst/state_finance_commission.html" target="_blank">Third State Finance Commission - Rural Development And Panchayat Raj Department</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Municipal Administration and Water Supply Dept">
+            <a href="https://www.tnurbantree.tn.gov.in/" target="_blank">Municipal Administration And Water Supply Department</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Tamil Virtual University">
+            <a href="https://www.tamilvu.org/" target="_blank">Commissionerate Of Municipal Administration</a>
+        </div>
+        <div class="website-link" data-description="">
+            <img src="images/pathtologo.png" alt="Geology and Mining Department">
+            <a href="https://mines.gov.in/webportal/home" target="_blank">Geology And Mining Department</a>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Theervu Kural
+    </footer>
+
+    <script>
+        // ... (your JavaScript code) ...
+        const searchBox = document.getElementById('searchBox');
+        const suggestions = document.getElementById('suggestions');
+        const websiteLinks = {
+            "Tamil Nadu Travelling Allowance Rules": "https://www.tn.gov.in/department/1",
+            "National Human Rights Commission": "https://nhrc.nic.in/",
+            "TN Newsprint and Papers Limited": "http://www.tnpl.com/",
+            "TIDCO": "https://tidco.tn.gov.in/",
+            "Third State Finance Commission": "#",
+            "Handlooms, Handicrafts, Textiles And Khadi Department": "https://www.tn.gov.in/department/14",
+            "TN State Election Commission - Rural Development And Panchayat Raj Dept": "https://www.tnsec.tn.nic.in/",
+            "Ministry Of Women and Child Development": "https://wcd.nic.in/",
+            "Department Of Education, Govt Of India": "https://www.education.gov.in/",
+            "Ministry Of Environment And Forests": "https://moef.gov.in/",
+            "Tamil Nadu Electricity Board (TNEB)": "https://www.tangedco.gov.in/",
+            "TN Small Industries Development Corporation (SIDCO)": "https://www.sidco.tn.gov.in/",
+            "Third State Finance Commission - Rural Development And Panchayat Raj Department": "#",
+            "Municipal Administration And Water Supply Department": "https://www.tn.gov.in/department/12",
+            "Commissionerate Of Municipal Administration": "https://www.tn.gov.in/department/11",
+            "Geology And Mining Department": "https://www.tn.gov.in/department/25"
+        };
+
+        searchBox.addEventListener('input', () => {
+            const searchTerm = searchBox.value.toLowerCase();
+            suggestions.innerHTML = '';
+
+            if (searchTerm.length > 0) {
+                for (const website in websiteLinks) {
+                    if (website.toLowerCase().includes(searchTerm)) {
+                        const link = document.createElement('a');
+                        link.href = '#';
+                        link.textContent = website;
+                        link.addEventListener('click', () => {
+                            searchBox.value = website;
+                            suggestions.style.display = 'none'; // Hide suggestions
+                        });
+                        suggestions.appendChild(link);
+                    }
+                }
+
+                if (suggestions.children.length > 0) {
+                    suggestions.style.display = 'block'; // Show suggestions
+                } else {
+                    suggestions.style.display = 'none'; // Hide if no matches
+                }
+            } else {
+                suggestions.style.display = 'none'; // Hide if search is empty
+            }
+        });
+
+        function performSearch() {
+            const searchTerm = searchBox.value;
+            const url = websiteLinks[searchTerm];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert('Website not found.');
+            }
+        }
+        // Logout function
+        function logoutUser() {
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "landing.html";
+    }
+}
+// Perform search and show suggestions
+function performSearch() {
+    const searchQuery = searchBox.value.toLowerCase().trim();
+    const filteredLinks = Object.keys(websiteLinks).filter((website) =>
+        website.toLowerCase().includes(searchQuery)
+    );
+
+    suggestions.innerHTML = '';  // Clear previous suggestions
+
+    if (searchQuery && filteredLinks.length > 0) {
+        filteredLinks.forEach((website) => {
+            const suggestionItem = document.createElement('a');
+            suggestionItem.href = websiteLinks[website];
+            suggestionItem.target = '_blank';
+            suggestionItem.textContent = website;
+            suggestions.appendChild(suggestionItem);
+        });
+        suggestions.style.display = 'block';  // Show suggestions
+    } else {
+        suggestions.style.display = 'none';  // Hide suggestions if no matches
+    }
+}
+
+// Event listener for search input to show suggestions
+searchBox.addEventListener('input', performSearch);
+function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+
+    </script>
+
+</body>
+</html>

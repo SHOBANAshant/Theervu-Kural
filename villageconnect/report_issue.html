@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report an Issue with Location</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('images/iss.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #d79cff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            color: black;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header .logo span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6em;
+        }
+
+        nav a img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            background: rgba(32, 35, 35, 0.5);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto; /* Center the container */
+            flex: 1; /* Allow container to take up available space */
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #e9e6ed;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: white;
+        }
+
+        input[type="text"], 
+        input[type="file"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        button {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        button:hover {
+            background: #5a0bb5;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .report-box {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #6a11cb;
+            border-radius: 10px;
+            background: #f0f8ff;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: #6a11cb;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #custom-issue {
+            display: none;
+        }
+        #copyButton {
+    color: #2e2f30; /* Blue color */
+    margin-left: 10px; /* Space between text and icon */
+    font-size: 16px; /* Adjust the size */
+    vertical-align: middle; /* Align icon with text */
+}
+#copyButton:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+#copyMessage {
+    color: green;
+    font-size: 14px;
+    margin-left: 10px;
+    display: none; /* Hidden by default */
+}
+
+.speaker-icon {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px;
+    color: #6a11cb;
+}
+
+.speaker-icon:hover {
+    color: #5a0bb5;
+}
+.message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Theervu Kural Logo">
+            <span>Theervu Kural</span>
+        </div>
+        <nav>
+            <a href="dashboard.html">
+                <img src="images/home.png" alt="Home">
+                Home
+            </a>
+            <a href="gallery.html">
+                <img src="images/gallery.png" alt="Gallery">
+                Gallery
+            </a>
+            <a href="contact.html">
+                <img src="images/contact.png" alt="Contact">
+                Contact
+            </a>
+            <a href="#" onclick="logoutUser()">
+                <img src="images/logout.png" alt="Logout">
+                Logout
+              </a>
+            <a href="profile.html">
+                <img src="images/profilee.png" alt="Profile">
+                Profile
+            </a>
+        </nav>
+    </header>
+    <div class="message-box" id="logout-message"></div>
+    <div class="container">
+        <h1>Report an Issue</h1>
+        <form id="issueForm">
+            <label for="issue-type">Type of Issue:
+                <span class="speaker-icon" onclick="speakText('Type of Issue')">🔊</span>
+            </label>
+            <select id="issue-type" name="issue-type" required>
+                <option value="" disabled selected>Select the issue type</option>
+                <option value="light">Street Light</option>
+                <option value="road">Road Repair</option>
+                <option value="sewage">Sewage</option>
+                <option value="water-supply">Water Supply</option>
+                <option value="garbage">Garbage Collection</option>
+                <option value="other">Other</option>
+            </select>
+
+            <div id="custom-issue">
+                <label for="custom-issue-input">Enter the Issue Type:</label>
+                <input type="text" id="custom-issue-input" name="custom-issue" placeholder="Specify the issue type">
+            </div>
+
+            <label for="issue-title">Issue Title:
+                <span class="speaker-icon" onclick="speakText('Issue Title')">🔊</span>
+            
+            </label>
+            <input type="text" id="issue-title" name="issue-title" placeholder="Enter a short title for the issue" required>
+
+            <label for="place">Place of Issue:
+                <span class="speaker-icon" onclick="speakText('Place of Issue')">🔊</span>
+            </label>
+            <input type="text" id="place" name="place" placeholder="Enter the location or place of the issue" required>
+
+            <label for="phone">Phone Number:
+                <span class="speaker-icon" onclick="speakText('Phone Number')">🔊</span>
+            </label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+            <label for="image-upload">Upload Images or Videos:
+                <span class="speaker-icon" onclick="speakText('Upload Images or Videos')">🔊</span>
+            </label>
+            <input type="file" id="image-upload" name="media" accept="image/,video/" multiple>
+
+            <label for="issue-description">Description:
+                <span class="speaker-icon" onclick="speakText('Description')">🔊</span>
+            </label>
+<textarea id="issue-description" name="issue-description" placeholder="Provide a detailed description of the issue" required></textarea>
+
+<!-- Voice Recognition Button -->
+<button type="button" id="voiceButton">🎤 Speak</button>
+<p id="status" style="color: white; font-size: 14px; margin-top: 5px;"></p>
+            <div id="map"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="reportBox" class="report-box" style="display: none;">
+            <p>Your report has been submitted successfully!</p>
+            <p>
+                Report ID: 
+                <span id="reportId" class="highlight">12345</span>
+                <span id="copyButton" title="Copy Report ID" style="cursor: pointer;">
+                    <i class="fas fa-copy"></i>
+                </span>
+                <span id="copyMessage" style="color: green; font-size: 14px; margin-left: 10px; display: none;">Copied!</span>
+            </p>
+            
+            
+                
+            </p>
+            <button id="trackNowButton" style="margin-top: 20px;">Track Now</button>
+        </div>
+        
+    </div>
+
+    <!-- Load Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-S3DIud4-b9h9dVs4hnlVBGMfr_TtHx0&callback=initMap" async defer></script>
+
+    <script>
+     // Function to read text aloud with an Indian accent
+     
+    // Function to read text aloud with an Indian accent
+    function speakText(text) {
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Set Indian English voice if available
+        const voices = synth.getVoices();
+        const indianVoice = voices.find(voice => voice.lang === 'en-IN'); // Look for Indian English voice
+        if (indianVoice) {
+            utterance.voice = indianVoice;
+        }
+
+        utterance.lang = 'en-IN'; // Set language to Indian English
+        utterance.rate = 1; // Normal speech rate
+        synth.speak(utterance);
+    }
+
+
+        
+        // Copy the Report ID to the clipboard
+        
+   // Copy the Report ID to the clipboard
+document.getElementById('copyButton').addEventListener('click', function () {
+    const reportId = document.getElementById('reportId').textContent;
+
+    // Copy the report ID to the clipboard
+    navigator.clipboard.writeText(reportId).then(() => {
+        // Show the "Copied!" message
+        const copyMessage = document.getElementById('copyMessage');
+        copyMessage.style.display = 'inline'; // Show the message
+
+        // Hide the message after 2 seconds
+        setTimeout(() => {
+            copyMessage.style.display = 'none';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+});
+
+
+    // Check if the browser supports speech recognition
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (window.SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        const voiceButton = document.getElementById('voiceButton');
+        const issueDescription = document.getElementById('issue-description');
+        const statusText = document.getElementById('status');
+
+        voiceButton.addEventListener('click', function () {
+            recognition.start();
+            statusText.textContent = "Listening...";
+        });
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            issueDescription.value = transcript; // Fill the description box
+            statusText.textContent = "Voice input added!";
+        };
+
+        recognition.onspeechend = function () {
+            recognition.stop();
+            statusText.textContent = "Listening stopped.";
+        };
+
+        recognition.onerror = function (event) {
+            statusText.textContent = "Error: " + event.error;
+        };
+    } else {
+        document.getElementById('status').textContent = "Speech recognition not supported in this browser.";
+    }
+
+        let map, marker;
+
+        // Initialize the map using Google Maps
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 51.505, lng: -0.09}, // Default location (London)
+                zoom: 13
+            });
+
+            marker = new google.maps.Marker({
+                position: {lat: 51.505, lng: -0.09},
+                map: map
+            });
+
+            // Use the user's location if available
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    map.setCenter({lat: lat, lng: lon});
+                    marker.setPosition({lat: lat, lng: lon});
+                });
+            }
+        }
+        
+
+        // Convert uploaded images to Base64
+        function convertToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Show or hide the custom issue input based on selection
+        document.getElementById('issue-type').addEventListener('change', function() {
+            const customIssueDiv = document.getElementById('custom-issue');
+            if (this.value === 'other') {
+                customIssueDiv.style.display = 'block';
+            } else {
+                customIssueDiv.style.display = 'none';
+            }
+        });
+
+        // Form submission logic
+        document.getElementById('issueForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const customEpoch = new Date('1947-08-15T00:00:00Z');
+const epochOffset = customEpoch.getTime(); // Get milliseconds for Aug 15, 1947
+const reportId = 'RID-' + (Date.now() - epochOffset);
+console.log(reportId);
+
+            let issueType = document.getElementById('issue-type').value;
+            const customIssueInput = document.getElementById('custom-issue-input').value.trim();
+
+            // Use custom issue type if "Other" is selected
+            if (issueType === 'other' && customIssueInput) {
+                issueType = customIssueInput;
+            }
+
+            const title = document.getElementById('issue-title').value.trim();
+            const place = document.getElementById('place').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const description = document.getElementById('issue-description').value.trim();
+
+            // Get the location coordinates of the marker
+            const location = marker.getPosition();
+
+            // Handle image uploads
+            const imageInput = document.getElementById('image-upload');
+            const files = imageInput.files;
+            const images = [];
+
+            if (files.length > 0) {
+                for (const file of files) {
+                    const base64Image = await convertToBase64(file);
+                    images.push(base64Image);
+                }
+            }
+
+            const report = {
+                reportId,
+                issueType,
+                title,
+                place,
+                phone,
+                description,
+                status: "Pending",
+                location: {
+                    lat: location.lat(),
+                    lng: location.lng()
+                },
+                images // Store images as Base64 strings
+            };
+
+            // Store report in local storage
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            reports.push(report);
+            localStorage.setItem('reports', JSON.stringify(reports));
+
+            // Display the report ID in the box
+            const reportBox = document.getElementById('reportBox');
+            const reportIdElement = document.getElementById('reportId');
+            reportIdElement.textContent = reportId;
+            reportBox.style.display = 'block';
+        });
+
+        document.getElementById('trackNowButton').addEventListener('click', function () {
+            window.location.href = 'track_report.html'; // Replace with the actual path to the "Track a Report" page
+        });
+        
+        function logoutUser() {
+  // Show a confirmation message before logging out
+  alert("You have been logged out successfully!");
+
+  // Clear any stored user session data (if applicable)
+  localStorage.removeItem("user"); // If using localStorage
+  sessionStorage.clear(); // Clears session storage
+
+  // Redirect to the landing page after a short delay (optional)
+  setTimeout(() => {
+    window.location.href = "landing.html"; // Change 'landing.html' to your actual landing page
+  }, 1000); // 1-second delay for better user experience
+}
+function speakText(text) {
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Set Indian English voice if available
+        const voices = synth.getVoices();
+        const indianVoice = voices.find(voice => voice.lang === 'en-IN'); // Look for Indian English voice
+        if (indianVoice) {
+            utterance.voice = indianVoice;
+        }
+
+        utterance.lang = 'en-IN'; // Set language to Indian English
+        utterance.rate = 1; // Normal speech rate
+        synth.speak(utterance);
+    }
+    function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+        
+    </script>
+</body>
+</html>

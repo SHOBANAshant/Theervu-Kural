@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Report System</title>
+    <style>
+        /* General reset and layout for body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images7.alphacoders.com/365/365684.jpg');
+            background-size: cover;  /* Make sure the background image covers the entire page */
+            background-position: center;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Logo at the center */
+        .logo-container {
+            text-align: center;
+            margin-top: 20px; /* Move logo up */
+        }
+
+        .logo-container img {
+            height: 150px; /* Increased the size of the logo */
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.755);  /* Dark transparent footer */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto; /* Push the footer to the bottom */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background for container */
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(90, 88, 88, 0.2);
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto; /* Move the container up and center it horizontally */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 10px; /* Move the cards up */
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.773); /* Transparent background for cards */
+            border-radius: 10px;
+            width: 33.33%; /* Set each card to take up 33.33% of the container width */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 120px;  /* Adjust the image size here */
+            height: 120px; /* Adjust the image size here */
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .card a {
+            text-decoration: none;
+            background: #6a11cb;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .card a:hover {
+            background: #2575fc;
+        }
+
+        /* Ensure proper layout on smaller screens */
+        @media screen and (max-width: 768px) {
+            .card {
+                width: 45%; /* Adjust card width for medium screens */
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .card {
+                width: 100%; /* Stack cards vertically on small screens */
+            }
+        }
+    </style>
+    <script type="module" src="register.js" defer></script>
+</head>
+<body>
+
+    <!-- Logo at the center -->
+    <div class="logo-container">
+        <img src="images/vc logo.png" alt="Central Logo">
+    </div>
+
+    <!-- Main content section -->
+    <div class="container">
+        <h1>Welcome to Village Report System</h1>
+        <p>Report and track village issues easily.</p>
+
+        <div class="card-container">
+            <!-- User Login Card -->
+            <div class="card">
+                <img src="images/user.png" alt="User Icon">
+                <a href="login_signup.html">User Login</a>
+            </div>
+
+            <!-- Worker Login Card -->
+            <div class="card">
+                <img src="images/worker.png" alt="Worker Icon">
+                <a href="worker_login.html">Worker Login</a>
+            </div>
+
+            <!-- Panchayat Head Login Card -->
+            <div class="card">
+                <img src="images/head.png" alt="Panchayat Icon">
+                <a href="panchayat_head_login.html">Panchayat Head Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Village Report System. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

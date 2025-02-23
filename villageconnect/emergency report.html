@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Alert Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYWJjMTM3NDcwLTRlNzAtMTFlZi1iMzFjLWM3ZTc5MGQ0OWM0MS5qcGc=') no-repeat center center fixed;
+            background-size: cover;
+            color: #080808;
+        }
+       
+    
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: black;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+
+        header {
+            background: #d79cff;
+            color: rgb(11, 10, 10);
+            padding: 8px 15px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 18px; 
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-top: 20px;
+            max-width: 480px; 
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .emergency-form input, .emergency-form select, .emergency-form textarea, .emergency-form input[type="file"] {
+            width: 96%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+        }
+
+        .emergency-form button {
+            background: #6e26f4;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .emergency-form button:hover {
+            background: #d32f2f;
+        }
+
+        .thank-you-message {
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .whatsapp-button {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .whatsapp-button:hover {
+            background: #1DA851;
+        }
+        .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Theervu Kural Logo">
+            <span>Theervu Kural</span>
+            <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+        </div>
+        <h1> Submit Emergency Report</h1> <!-- Move this outside second header tag -->
+        <nav>
+            <a href="dashboard.html">
+                <img src="images/home.png" alt="Home">
+                Home
+            </a>
+            <a href="gallery.html">
+                <img src="images/gallery.png" alt="Gallery">
+                Gallery
+            </a>
+            <a href="contact.html">
+                <img src="images/contact.png" alt="Contact">
+                Contact
+            </a>
+            <a href="#" onclick="logoutUser()">
+                <img src="images/logout.png" alt="Logout">
+                Logout
+              </a>
+            <a href="profile.html">
+                <img src="images/profilee.png" alt="Profile">
+                Profile
+            </a>
+        </nav>
+    </header>
+    <div class="message-box" id="logout-message"></div>
+    <div class="container">
+        <h3>Submit an Emergency Report</h3>
+        <form id="emergencyForm" class="emergency-form">
+            <input type="text" id="reporterName" placeholder="Your Name" required />
+            <select id="emergencyType" required>
+                <option value="">Select Emergency Type</option>
+                <option value="fire">Fire</option>
+                <option value="medical">Medical Emergency</option>
+                <option value="electric">Electric Issue</option>
+                <option value="garbage">Garbage Overflow</option>
+            </select>
+            <textarea id="emergencyDescription" placeholder="Describe the issue" required></textarea>
+            <input type="file" id="emergencyImage" accept="image/*" />
+            <button type="submit">Submit Report</button>
+        </form>
+
+        <div class="thank-you-message" id="thank-you-message" style="display:none;">
+            Thank you for your submission!
+        </div>
+        
+        <a id="whatsappButton" class="whatsapp-button" target="_blank">Send Report via WhatsApp</a>
+    </div>
+
+    <script>
+
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இந்த பக்கம் அவசரகால தகவல்களை பதிவு செய்யும் வசதியை வழங்குகிறது, இதில் பெயர், அவசர நிலை வகை, விவரம் மற்றும் புகைப்படம் சேர்க்கலாம். இடம் பகிர்வு மற்றும் வாட்ஸ்அப்பில் அனுப்பும் வசதியும் உள்ளது.`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+    
+        window.addEventListener("beforeunload", stopSpeech);
+        document.getElementById('emergencyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const reporterName = document.getElementById('reporterName').value;
+            const emergencyType = document.getElementById('emergencyType').value;
+            const emergencyDescription = document.getElementById('emergencyDescription').value;
+            const emergencyImage = document.getElementById('emergencyImage').files[0];
+
+            if (!reporterName || !emergencyType || !emergencyDescription) {
+                alert('Please fill all the required fields.');
+                return;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const locationUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+                    const message = `Emergency Alert!\nReporter: ${reporterName}\nType: ${emergencyType}\nDescription: ${emergencyDescription}\nLocation: ${locationUrl}`;
+                    const whatsappUrl = `https://wa.me/9025711983?text=${encodeURIComponent(message)}`;
+                    document.getElementById('whatsappButton').href = whatsappUrl;
+
+                    let imageBase64 = '';
+                    if (emergencyImage) {
+                        const reader = new FileReader();
+                        reader.onloadend = function() {
+                            imageBase64 = reader.result;
+                            submitReport(reporterName, emergencyType, emergencyDescription, imageBase64);
+                        };
+                        reader.readAsDataURL(emergencyImage);
+                    } else {
+                        submitReport(reporterName, emergencyType, emergencyDescription, null);
+                    }
+                }, function(error) {
+                    alert('Unable to retrieve location. Please allow location access.');
+                });
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
+
+        function submitReport(reporterName, emergencyType, emergencyDescription, imageBase64) {
+            const emergencyReport = {
+                reportId: 'ER' + Math.floor(Math.random() * 1000),
+                reporterName,
+                emergencyType,
+                description: emergencyDescription,
+                status: 'Unresolved',
+                image: imageBase64,
+            };
+
+            let emergencyReports = JSON.parse(localStorage.getItem('emergencyReports')) || [];
+            emergencyReports.push(emergencyReport);
+            localStorage.setItem('emergencyReports', JSON.stringify(emergencyReports));
+
+            document.getElementById('emergencyForm').reset();
+            document.getElementById('thank-you-message').style.display = 'block';
+
+            setTimeout(function() {
+                document.getElementById('thank-you-message').style.display = 'none';
+            }, 3000);
+        }
+        function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

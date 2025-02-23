@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behavioral Nudge - Report an Issue</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffe8fa; /* Light gray background */
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background: #d79cff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header .logo span {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: black;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8em;
+        }
+
+        nav a img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        /* CONTENT */
+        .content {
+         /* Increased padding */
+            background-color: #fff; /* White background for contrast */
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            
+            margin: 50px auto; /* Increased margin for better spacing */
+            text-align: center;
+            border: 2px solid rgb(218, 133, 218);
+    padding: 20px; /* Reduce padding */
+    max-width: 500px; /* Reduce width */
+    margin: 30px auto; /* Adjust margin */
+}
+
+        
+
+        .slogan {
+            font-size: 24px; /* Increased font size */
+            font-weight: bold;
+            color: #6a11cb;
+            margin-bottom: 30px;
+        }
+
+        .description {
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #555;
+            line-height: 1.5; /* Increased line height for better readability */
+        }
+
+        .hero-image {
+            width: 24%;
+            max-width: 200px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+    display: flex;
+    flex-direction: column; /* Make buttons vertical */
+    align-items: center; /* Center buttons horizontally */
+}
+
+.cta-button {
+    background-color: #6a11cb;
+    color: white;
+    padding: 10px 20px; /* Reduce padding */
+    font-size: 16px; /* Reduce font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 15px; /* Adjust space between buttons */
+}
+
+.cta-button:hover {
+    background-color: #5a0bb5;
+}
+
+.back-btn {
+    background-color: #f793de; /* Gray background for back button */
+    color: #333;
+    padding: 8px 16px; /* Reduce padding */
+    font-size: 14px; /* Reduce font size */
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.back-btn:hover {
+    background-color: #f086d2;
+}
+.message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Theervu Kural Logo">
+            <span>Theervu Kural</span>
+            <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+        </div>
+        <nav>
+            <a href="dashboard.html">
+                <img src="images/home.png" alt="Home">
+                Home
+            </a>
+            <a href="gallery.html">
+                <img src="images/gallery.png" alt="Gallery">
+                Gallery
+            </a>
+            <a href="contact.html">
+                <img src="images/contact.png" alt="Contact">
+                Contact
+            </a>
+            <a href="#" onclick="logoutUser()">
+                <img src="images/logout.png" alt="Logout">
+                Logout
+            </a>
+            <a href="profile.html">
+                <img src="images/profilee.png" alt="Profile">
+                Profile
+            </a>
+        </nav>
+    </header>
+    <div class="message-box" id="logout-message"></div>
+    <div class="content">
+        <div class="slogan">
+            "Be a Village Hero! Report Issues and Make a Difference."
+        </div>
+
+        <img src="https://communityroundtable.com/wp-content/uploads/2015/02/superhero.png" 
+             alt="Hero Image" class="hero-image">
+        
+        <div class="description">
+            We encourage you to report issues like unlit streetlights, broken roads, or any other concerns that affect the safety and well-being of the village. By reporting, you help improve our community.
+        </div>
+
+        <div class="cta-buttons"> 
+            <button class="cta-button" onclick="window.location.href='report_issue.html'">
+                Report an Issue Now
+            </button>
+            <a href="dashboard.html" class="back-btn">Go Back</a>
+        </div>
+       
+    </div>
+<script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இந்த பக்கம், பிரச்சினைகள் பதிவேற்றம் செய்வதற்கான வழிமுறைகளை விளக்குகிறது மற்றும் எவ்வாறு நீங்கள் உங்கள் கிராமத்தில் உள்ள பிரச்சினைகளை சரி செய்ய உதவி செய்ய முடியும் என்பதை காட்டுகிறது`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+    
+        window.addEventListener("beforeunload", stopSpeech);
+    function logoutUser() {
+        // Show custom message
+        const messageBox = document.getElementById("logout-message");
+        messageBox.textContent = "You have been logged out successfully!";
+        messageBox.style.display = "block";
+
+        // Clear any stored user session data
+        localStorage.removeItem("user");
+        sessionStorage.clear();
+
+        // Hide message and redirect after a short delay
+        setTimeout(() => {
+            messageBox.style.display = "none";
+            window.location.href = "landing.html";
+        }, 2000);
+    }
+</script>
+</body>
+</html>

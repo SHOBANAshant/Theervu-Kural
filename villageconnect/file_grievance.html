@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Grievance Portal</title>
+<style>
+ 
+  /* ... (Your existing CSS styles) ... */
+
+ /* ... (Your existing CSS styles) ... */
+
+ .thirukural-container {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    border: 3px dashed #3498db;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    height: 120px; /* Increased height to accommodate translations */
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex; /* Enable flexbox for centering */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+  }
+
+  .thirukural-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: fit-content;
+    white-space: nowrap;
+    animation: slide 120s linear infinite; /* Adjust duration */
+  }
+
+  .thirukural-slide p {
+    font-family: 'Noto Sans Tamil', sans-serif;
+    font-size: 1.4em;
+    text-align: left;
+    margin: 0;
+    padding: 10px;
+    display: inline-block;
+    margin-right: 60px;
+    color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(52, 152, 219, 0.5);
+  }
+
+  .translation { /* Style for translations */
+    font-size: 0.9em;
+    color: #7f8c8d; /* Lighter color for translations */
+    margin-top: 5px; /* Add spacing between original and translation */
+    display: block; /* Make translation appear on a new line */
+  }
+  
+  @keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-100% - (40px * 9))); } /* Adjusted for spacing */
+  }
+  /* Responsive adjustments (if needed) */
+  @media (max-width: 768px) {
+    .thirukural-container {
+      width: 95%;
+    }
+    .thirukural-slide p {
+      font-size: 1em;
+    }
+  }
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: #cf95fb;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-left img {
+    height: 50px;
+    margin-right: 10px;
+  }
+
+  .header-right {
+    display: flex;
+    gap: 20px;
+  }
+
+  .header-right a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-right a img {
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  
+  .banner {
+    background-image: url("images/complaints.png"); /* Your image path */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    /* Add the box shadow */
+    box-shadow: inset 200px 200px 200px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
+  }
+  
+
+
+  .banner-content {
+    text-align: center; /* Center text within the banner */
+    width: 100%; /* Make sure content takes full width */
+  }
+
+  .banner-content h2 {
+    margin-bottom: 10px;
+  }
+
+  .image-slider-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 20px auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-slider {
+  display: flex;
+  animation: imageSlide 25s linear infinite; /* Smooth continuous animation */
+}
+
+.image-slider img {
+  width: 8cm; /* Set the desired width */
+  height: 10cm; /* Automatically adjust height to maintain aspect ratio */
+  margin-right: 20px; /* Add spacing between images */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+.banner {
+    position: relative; /* Needed for positioning the overlay */
+    overflow: hidden; /* Ensures the overlay stays within the banner */
+  }
+
+  .banner-background { /* New element for the background image */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("images/complaints.png"); /* Your image path */
+    background-size: cover;
+    background-position: center;
+    /* Optional: Add a subtle blur for better text readability */
+     /* Adjust blur radius as needed */
+  }
+
+  .banner-overlay { /* New element for the semi-transparent overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Adjust opacity as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .banner-content {
+    text-align: center;
+    color: white; /* Ensure text is visible against the dark background */
+    padding: 20px; /* Add some padding to the text */
+    position: relative; /* Bring the text content above the overlay */
+    z-index: 1; /* Ensure text is above the overlay */
+    max-width: 800px; /* Limit text width for better readability */
+    margin: 0 auto; /* Center the text horizontally */
+  }
+
+
+
+/* Animation for right-to-left sliding */
+@keyframes imageSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-6cm * 5 - 10px * 5)); /* Adjust for enlarged image width and margins */
+  }
+}
+
+/* Responsive adjustments (optional) */
+@media (max-width: 768px) {
+  .image-slider img {
+    width: 100%; /* Adjust for smaller screens if needed */
+    height: auto;
+  }
+}
+
+  .banner img {
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .banner {
+      flex-direction: column;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+    .banner {
+      height: 200px; /* Adjust height for smaller screens */
+    }
+    .banner-content {
+        font-size: 1em; /* Adjust font size for smaller screens */
+    }
+  }
+
+    .banner-content {
+      margin-right: 0;
+      margin-bottom: 20px;
+      font-size:90px;
+      background-image: url('images/complaints.png'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-attachment: fixed;
+    }
+  }
+
+  .infinity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 90%;
+    margin: 20px auto;
+    position: relative;
+  }
+
+  .infinity-image {
+    width: auto;
+    height: auto;
+    max-width: 80%; /* Adjust as needed */
+    cursor: pointer; /* Make the image look clickable */
+  }
+
+  .grievance-options {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    width: 15%; /* Adjust as needed */
+  }
+
+  .grievance-options.left {
+    left: 18%; /* Adjust as needed */
+  }
+
+  .grievance-options.right {
+    right: 18%; /* Adjust as needed */
+  }
+
+  .grievance-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .grievance-option img {
+    height: 40px;
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 768px) {
+    .infinity-container {
+      flex-direction: column;
+    }
+    .grievance-options {
+      flex-direction: row;
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      transform: translateY(0);
+      margin: 20px 0;
+      justify-content: center;
+    }
+    .grievance-options.left, .grievance-options.right {
+      left: auto;
+      right: auto;
+    }
+    .grievance-option {
+      flex-direction: column;
+      align-items: center;
+    }
+    .grievance-option img {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+    .infinity-image {
+      max-width: 90%;
+    }
+  }
+
+  .voice-of-the-people {
+    margin-top: 30px;
+    text-align: center;
+    border: 3px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row; /* Change column to row for horizontal layout */
+    align-items: center;
+    justify-content: center;
+    width: 100vw; /* Full width of viewport */
+    max-width: 100%; /* Ensure it does not shrink */
+    background-color: #ee84f6;
+    overflow: hidden; /* Prevent any extra spacing */
+}
+
+
+.voice-of-the-people img {
+    max-width: 100%; /* Ensure images fit */
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+    border: 2px solid #555;
+}
+
+  .translate-button { /* Style for the translate button */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #translation-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  #translation-popup select {
+    margin-bottom: 10px;
+  }
+
+  .voice-details {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .infy-image {
+    width: 200px;
+    height: auto;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+  
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <img src="images/logo.png" alt="Theervu Kural Logo">
+      <span>Theervu Kural</span>
+      <img src="images/voice.png" alt="Speaker" id="speakerIcon"
+            style="height: 45px; width: 45px; cursor: pointer; margin-left: 10px;" 
+            onclick="toggleSpeech()">
+    </div>
+    <div class="header-right">
+      <a href="dashboard.html"> <img src="images/home.png" alt="Home"> Home </a>
+      <a href="#"> <img src="images/profilee.png" alt="Profile"> Profile </a>
+      <a href="#"> <img src="images/gallery.png" alt="Gallery"> Gallery </a>
+      <a href="#" onclick="logoutUser()">
+        <img src="images/logout.png" alt="Logout">
+        Logout
+      </a>
+      <a href="#"> <img src="images/contact.png" alt="Contact"> Contact </a>
+    </div>
+  </header>
+  <div class="message-box" id="logout-message"></div>
+
+  <div class="banner">
+    <div class="banner-background"></div> <div class="banner-overlay"></div>
+    <div class="banner-content">
+      
+    </div>
+  </div>
+
+  <div class="infinity-container">
+    <img class="infinity-image" src="images/infinity_with_image.png" alt="Infinity Symbol with Options" usemap="#infinitymap">
+    <map name="infinitymap">
+      <area shape="rect" coords="44, 236, 224, 300" href="grievance.html" alt="File Grievance">
+      <area shape="rect" coords="556, 240, 744, 300" href="voiceofpeople.html" alt="Voice of People">
+      
+    </a>
+    
+    </map>
+    <div class="thirukural-container">
+      <div class="thirukural-slide">
+        <p>
+          அகர முதல எழுத்தெல்லாம் ஆதி<br>
+          பகவன் முதற்றே உலகு</p>
+        <p>
+          கற்றதனால் ஆய பயனென்கொல் வாலறிவன்<br>
+          நற்றாள் தொழாஅர் எனின்</p>
+        <p>
+          மலர்மிசை ஏகினான் மாணடி சேர்ந்தார்<br>
+          நிலமிசை நீடுவாழ் வார்</p>
+        <p>
+          வேண்டுதல் வேண்டாமை இலானடி சேர்ந்தார்க்கு<br>
+          யாண்டும் இடும்பை இல</p>
+        <p>
+          இருள்சேர் இருவினையும் சேரா இறைவன்<br>
+          பொருள்சேர் புகழ்புரிந்தார் மாட்டு</p>
+      </div>
+    </div>
+  </div>
+  <div id="translation-popup">
+    <h3>Translate Thirukural</h3>
+    <select id="target-language">
+      <option value="en">English</option>
+      <option value="fr">French</option>
+      <option value="es">Spanish</option>
+    </select>
+    <button onclick="translateSelectedKural()">Translate</button>
+    <button onclick="closeTranslationPopup()">Close</button>
+  </div>
+  <div class="image-slider-container">
+    <div class="image-slider">
+      <img src="images/ab.png" alt="Image 1">
+      <img src="images/cd.png" alt="Image 2">
+      <img src="images/ef.png" alt="Image 3">
+      <img src="images/ef.png" alt="Image 4">
+       <img src="images/ef.png" alt="Image 5">
+       <img src="images/ab.png" alt="Image 1">
+      <img src="images/cd.png" alt="Image 2">
+      <img src="images/ef.png" alt="Image 3">
+      <img src="images/ef.png" alt="Image 4">
+       <img src="images/ef.png" alt="Image 5">
+    </div>
+  </div>
+  <script>
+
+let speech = new SpeechSynthesisUtterance();
+        speech.lang = 'ta-IN';
+        speech.text = `இந்த பக்கம் உங்கள் நிலுவையில் உள்ள புகார் மற்றும் பரிந்துரைகளை பதிவு செய்ய உதவும்.
+            படிவத்தை பூர்த்தி செய்து, அதனை சமர்ப்பிக்கவும்.`;
+
+        let isSpeaking = false;
+        let isPaused = false;
+        let tamilVoice = null; // Store Tamil voice globally
+
+        // Load voices properly
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            tamilVoice = voices.find(voice => voice.lang === 'ta-IN');
+
+            // Fallback to Indian English if Tamil is not available
+            if (!tamilVoice) {
+                tamilVoice = voices.find(voice => voice.lang === 'en-IN');
+            }
+
+            if (tamilVoice) {
+                speech.voice = tamilVoice;
+            }
+        }
+
+        // Voice loading handler (for browsers like Chrome)
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Also call immediately in case voices are already loaded
+
+        function toggleSpeech() {
+            const synth = window.speechSynthesis;
+
+            if (!isSpeaking && !isPaused) {
+                if (tamilVoice) {
+                    synth.speak(speech);
+                    isSpeaking = true;
+                } else {
+                    alert('Tamil voice not supported on this device.');
+                }
+            } else if (isSpeaking && !isPaused) {
+                synth.pause();
+                isPaused = true;
+            } else if (isPaused) {
+                synth.resume();
+                isPaused = false;
+            }
+        }
+
+        // Stop speech completely
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+        }
+
+        // Reset flags when speech ends
+        speech.onend = function() {
+            isSpeaking = false;
+            isPaused = false;
+        };
+        window.addEventListener("beforeunload", stopSpeech);
+    const translationPopup = document.getElementById('translation-popup');
+    let currentKuralId;
+    let currentTransId;
+
+    function showTranslationPopup(kuralId, transId) {
+      currentKuralId = kuralId;
+      currentTransId = transId;
+      translationPopup.style.display = 'block';
+    }
+
+    function closeTranslationPopup() {
+      translationPopup.style.display = 'none';
+    }
+
+    async function translateSelectedKural() {
+      const targetLanguage = document.getElementById('target-language').value;
+      const kuralText = document.getElementById(currentKuralId).textContent.split("<br>")[0];
+      const translatedText = await translate(kuralText, targetLanguage);
+      document.getElementById(currentTransId).textContent = translatedText;
+      closeTranslationPopup();
+    }
+
+    async function translate(text, targetLanguage) {
+      const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ta|${targetLanguage}`;
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        if (data.responseStatus === 200) {
+          return data.responseData.translatedText;
+        } else {
+          throw new Error("Translation failed");
+        }
+      } catch (error) {
+        console.error("Translation error:", error);
+        return "Translation failed.";
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {  // Wait for DOM to load
+      translateKural("kural1", "trans1", "en");
+      translateKural("kural2", "trans2", "en");
+      translateKural("kural3", "trans3", "en");
+      translateKural("kural4", "trans4", "en");
+      translateKural("kural5", "trans5", "en");
+    });
+
+     async function translateKural(kuralId, transId, targetLanguage) {
+      const kuralText = document.getElementById(kuralId).textContent.split("<br>")[0]; // Get the Tamil text
+      const translatedText = await translate(kuralText, targetLanguage); // Hypothetical translate function
+      document.getElementById(transId).textContent = translatedText;
+    }
+    function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+
+
+  </script>
+
+  
+  
+
+</body>
+
+</html>

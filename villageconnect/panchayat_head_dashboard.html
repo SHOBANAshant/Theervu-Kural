@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Panchayat Dashboard </title>
+
+<style>
+
+/* General Styles */
+
+body {
+
+font-family: Arial, sans-serif;
+
+margin: 0;
+
+padding: 0;
+
+background-color: #f9f9f9;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+}
+
+body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 20px;
+      width: 1500px;
+      height: 25px;
+      margin-top: -10px;
+
+      color: black;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+    
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four equal-width columns */
+    gap: 20px; /* Adjust gap as needed */
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.card {
+
+background-color: white;
+
+border-radius: 10px;
+
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+padding: 20px;
+
+text-align: center;
+
+cursor: pointer;
+
+transition: transform 0.3s, box-shadow 0.3s;
+
+}
+
+
+
+.card:hover {
+
+transform: translateY(-5px);
+
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+}
+
+
+
+.card-title {
+
+font-size: 1.5rem;
+
+color: #6a11cb;
+
+}
+
+
+
+table {
+
+width: 100%;
+
+border-collapse: collapse;
+
+margin: 20px 0;
+
+}
+
+
+
+table th, table td {
+
+border: 1px solid #ddd;
+
+padding: 10px;
+
+text-align: left;
+
+}
+
+
+
+table th {
+
+background-color: #6a11cb;
+
+color: white;
+
+}
+
+
+
+.hidden {
+
+display: none;
+
+}
+
+
+
+.modal {
+
+display: none;
+
+position: fixed;
+
+z-index: 1;
+
+left: 0;
+
+top: 0;
+
+width: 100%;
+
+height: 100%;
+
+overflow: auto;
+
+background-color: rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+.modal-content {
+
+background-color: white;
+
+margin: 10% auto;
+
+padding: 20px;
+
+border: 1px solid #888;
+
+width: 80%;
+
+max-width: 400px;
+
+text-align: center;
+
+}
+h1 {
+    text-align: center;
+    flex-grow: 1; /* Allows h1 to take up available space */
+}
+
+
+
+
+
+/* Custom Button and Worker Name Styles */
+
+
+
+
+button:hover {
+
+background-color: #c06fb4;
+
+}
+
+
+
+#workerList button {
+
+background-color: #DD88CF;
+
+color: white;
+
+border: none;
+
+padding: 8px 12px;
+
+border-radius: 4px;
+
+margin: 4px;
+
+}
+#selected-project-display { /* Style for the project display */
+            font-weight: bold;
+            font-size: 1.2em; /* Or whatever size you prefer */
+            margin-top: 10px; /* Add some spacing */
+        }
+
+.delete-button{
+
+background-color: #ed0910;
+
+
+
+}
+.message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+</style>
+
+</head>
+
+<body>
+    <div id="selected-project-display"></div>
+    <header>
+      <div class="logo">
+          <img src="images/logo.png" alt="Theervu Kural Logo">
+          <span>Theervu Kural</span>
+      </div>
+      <h1>Panchayat Head Homepage</h1> <!-- Move this outside second header tag -->
+      <nav>
+          <a href="dashboard.html">
+              <img src="images/home.png" alt="Home">
+              Home
+          </a>
+          <a href="gallery.html">
+              <img src="images/gallery.png" alt="Gallery">
+              Gallery
+          </a>
+          <a href="contact.html">
+              <img src="images/contact.png" alt="Contact">
+              Contact
+          </a>
+          <a href="#" onclick="logoutUser()">
+            <img src="images/logout.png" alt="Logout">
+            Logout
+          </a>
+          <a href="profile.html">
+              <img src="images/profilee.png" alt="Profile">
+              Profile
+          </a>
+      </nav>
+  </header>
+  <div class="message-box" id="logout-message"></div>
+  
+
+
+
+
+
+<div class="container">
+
+<div class="card" onclick="toggleSection('issuesSection')">
+
+<h2 class="card-title">Reported Issues</h2>
+
+<p>View and manage reported issues.</p>
+
+</div>
+
+<div class="card" onclick="toggleSection('paymentsSection')">
+
+<h2 class="card-title">Recent Payments</h2>
+
+<p>View recent payment transactions.</p>
+
+</div>
+
+<div class="card" onclick="toggleSection('grievancesSection')">
+
+<h2 class="card-title">Reported Grievances</h2>
+
+<p>View and respond to grievances.</p>
+
+</div>
+
+<div class="card" onclick="toggleSection('emergencySection')">
+
+<h2 class="card-title">Emergency Alerts</h2>
+
+<p>View emergency alert reports.</p>
+
+</div>
+
+</div>
+
+
+
+<div id="issuesSection" class="hidden">
+
+<h2>Reported Issues</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Report ID</th>
+
+<th>Type</th>
+
+<th>Description</th>
+
+<th>Photo</th>
+
+<th>Status</th>
+
+<th>Assigned Worker</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="issues-table"></tbody>
+
+</table>
+
+</div>
+
+
+
+<div id="paymentsSection" class="hidden">
+
+<h2>Recent Payments</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Project</th>
+
+<th>Amount</th>
+
+<th>Transaction ID</th>
+<th>Date & Time</th>
+
+
+</tr>
+
+</thead>
+
+<tbody id="payments-table"></tbody>
+
+</table>
+
+</div>
+
+
+
+<div id="grievancesSection" class="hidden">
+
+<h2>Recent Grievances</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Grievance</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="grievances-table"></tbody>
+
+</table>
+
+</div>
+
+
+
+<div id="emergencySection" class="hidden">
+
+<h2>Emergency Alerts</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Report ID</th>
+
+<th>Reporter Name</th>
+
+<th>Type</th>
+
+<th>Description</th>
+
+<th>Status</th>
+
+<th>Image</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="reportsBody"></tbody>
+
+</table>
+
+</div>
+
+
+
+<!-- Modal for Assigning Workers -->
+
+<div class="modal" id="workerModal">
+
+<div class="modal-content">
+
+<h3>Select a Worker</h3>
+
+<div id="workerList"></div>
+
+<button onclick="closeModal()">Cancel</button>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+const workers = {
+        'light': [{ name: 'Krishna', email: 'krishna@gmail.com' }, { name: 'Kannan', email: 'kannan@gmail.com' }],
+        'road': [{ name: 'Rajesh', email: 'rajesh@gmail.com' }, { name: 'Dhanush', email: 'dhanush@gmail.com' }],
+        'sewage': [{ name: 'Ravi', email: 'ravi@gmail.com' }, { name: 'Suresh', email: 'suresh@gmail.com' }],
+        'water': [{ name: 'Murugan', email: 'murugan@gmail.com' }, { name: 'Siva', email: 'siva@gmail.com' }],
+        'garbage': [{ name: 'Hari', email: 'hari@gmail.com' }, { name: 'Kumar', email: 'kumar@gmail.com' }]
+    };
+
+
+
+function toggleSection(sectionId) {
+
+document.querySelectorAll('.hidden').forEach(section => {
+
+section.style.display = 'none';
+
+});
+
+document.getElementById(sectionId).style.display = 'block';
+
+}
+
+
+
+function displayIssues() {
+
+const issues = JSON.parse(localStorage.getItem('reports')) || [];
+
+const tableBody = document.getElementById('issues-table');
+
+tableBody.innerHTML = '';
+
+
+
+issues.forEach(issue => {
+
+const row = `
+
+<tr>
+
+<td>${issue.reportId}</td>
+
+<td>${issue.issueType}</td>
+
+<td>${issue.description}</td>
+
+<td><img src="${issue.images[0] || 'https://via.placeholder.com/100?text=No+Image'}" alt="Issue Photo" style="width: 100px;"></td>
+
+<td>${issue.status}</td>
+
+<td>${issue.assignedWorker || 'Not Assigned'}</td>
+
+<td>
+
+<button onclick="openWorkerModal('${issue.reportId}', '${issue.issueType}')">Assign</button>
+
+<button class="delete-btn" onclick="deleteIssue('${issue.reportId}')">Delete</button>
+
+</td>
+
+</tr>
+
+`;
+
+tableBody.innerHTML += row;
+
+});
+
+}
+
+
+
+function openWorkerModal(reportId, issueType) {
+        const modal = document.getElementById('workerModal');
+        const workerListDiv = document.getElementById('workerList');
+        workerListDiv.innerHTML = '';
+
+        if (workers[issueType]) {
+            workers[issueType].forEach(worker => {
+                const workerButton = document.createElement('button');
+                workerButton.textContent = worker.name;
+                workerButton.dataset.email = worker.email; // Store email as data attribute
+                workerButton.onclick = function () {
+                    assignWorker(reportId, worker.name, worker.email);
+                };
+                workerListDiv.appendChild(workerButton);
+            });
+        } else {
+            workerListDiv.textContent = 'No workers available for this issue type';
+        }
+
+        modal.style.display = 'block';
+    }
+
+
+    function assignWorker(reportId, workerName, workerEmail) {
+        const reports = JSON.parse(localStorage.getItem('reports')) || [];
+        const reportIndex = reports.findIndex(report => report.reportId === reportId);
+        if (reportIndex !== -1) {
+            reports[reportIndex].assignedWorker = workerName;
+            reports[reportIndex].assignedWorkerEmail = workerEmail; // Store email with the report
+            localStorage.setItem('reports', JSON.stringify(reports));
+            displayIssues();
+            alert('Worker assigned successfully!');
+        }
+        closeModal();
+    }
+
+
+
+
+function closeModal() {
+
+document.getElementById('workerModal').style.display = 'none';
+
+}
+
+
+
+
+
+
+
+function deleteIssue(reportId) {
+
+const reports = JSON.parse(localStorage.getItem('reports')) || [];
+
+const filteredReports = reports.filter(report => report.reportId !== reportId);
+
+localStorage.setItem('reports', JSON.stringify(filteredReports));
+
+displayIssues();
+
+}
+
+
+function displayPayments() {
+    const paymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || []; 
+    console.log("Payment History:", paymentHistory);
+    // Get from local storage
+  const paymentsTable = document.getElementById('payments-table');
+  // Clear the table first to avoid duplicate entries
+  paymentsTable.innerHTML = '';
+            // Clear existing rows (important!)
+            if (paymentHistory.length > 0) {
+        paymentHistory.forEach(payment => { // Iterate over the history array
+            const row = `
+                <tr>
+                    <td>${payment.funderName}</td>
+                    <td>${payment.project}</td>
+                    <td>${payment.amount}</td>
+                    <td>${payment.transactionId}</td>
+                    <td>${payment.date}</td>
+                </tr>
+            `;
+            paymentsTable.innerHTML += row;
+        });
+    } else {
+        const noPaymentMessage = "<tr><td colspan='5'>No payment data available yet.</td></tr>";
+        paymentsTable.innerHTML = noPaymentMessage;
+    }
+}
+   
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            displayPayments();
+            displayIssues();
+            displayGrievances();
+            displayReports();
+
+            const selectedProject = localStorage.getItem('selectedProject');
+            const projectDisplayElement = document.getElementById('selected-project-display');
+
+        });
+
+function displayGrievances() {
+
+const grievances = JSON.parse(localStorage.getItem('grievances')) || [];
+
+const tableBody = document.getElementById('grievances-table');
+
+tableBody.innerHTML = '';
+
+
+
+grievances.forEach(grievance => {
+
+const row = `
+
+<tr>
+
+<td>${grievance.name}</td>
+
+<td>${grievance.email}</td>
+
+<td>${grievance.grievance}</td>
+
+<td>${grievance.submittedAt}</td>
+
+</tr>
+
+`;
+
+tableBody.innerHTML += row;
+
+});
+
+}
+
+
+
+function displayReports() {
+
+const reports = JSON.parse(localStorage.getItem('emergencyReports')) || [];
+
+const tableBody = document.getElementById('reportsBody');
+
+tableBody.innerHTML = '';
+
+
+
+reports.forEach(report => {
+
+const row = `
+
+<tr>
+
+<td>${report.reportId}</td>
+
+<td>${report.reporterName}</td>
+
+<td>${report.emergencyType}</td>
+
+<td>${report.description}</td>
+
+<td>${report.status}</td>
+
+<td>${report.image ? `<img src="${report.image}" style="width: 100px;">` : 'No image'}</td>
+
+<td>
+
+<button onclick="markAsResolved('${report.reportId}')">${report.status === 'Resolved' ? 'Resolved' : 'Mark as Resolved'}</button>
+
+<button class="delete-btn" onclick="deleteReport('${report.reportId}')">Delete</button>
+
+</td>
+
+</tr>
+
+`;
+
+tableBody.innerHTML += row;
+
+});
+
+}
+
+
+
+function markAsResolved(reportId) {
+
+const reports = JSON.parse(localStorage.getItem('emergencyReports')) || [];
+
+const reportIndex = reports.findIndex(report => report.reportId === reportId);
+
+if (reportIndex !== -1) {
+
+reports[reportIndex].status = 'Resolved';
+
+localStorage.setItem('emergencyReports', JSON.stringify(reports));
+
+displayReports();
+
+alert('Report marked as resolved!');
+
+}
+
+}
+
+
+
+function deleteReport(reportId) {
+
+const reports = JSON.parse(localStorage.getItem('emergencyReports')) || [];
+
+const filteredReports = reports.filter(report => report.reportId !== reportId);
+
+localStorage.setItem('emergencyReports', JSON.stringify(filteredReports));
+
+displayReports();
+
+}
+
+
+
+// Display sections on page load
+
+displayIssues();
+
+displayPayments();
+
+displayGrievances();
+
+displayReports();
+
+// Logout function
+function logoutUser() {
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "landing.html";
+    }
+}
+function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+
+</script>
+
+
+
+</body>
+
+
+
+
+
+</html>

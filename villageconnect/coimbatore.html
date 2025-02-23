@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive UI</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+
+
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .header {
+      margin: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .image-map {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 20px;
+    }
+
+    .banner-image {
+      width: 600px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #888;
+    }
+
+    .map {
+      width: 600px;
+      height: 400px;
+      border: 2px solid #888;
+      border-radius: 10px;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      width: 180px;
+      height: 200px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #555;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .card-front {
+      background: #8d1388c0;
+      color: white;
+    }
+
+    .card-back {
+      background: #d6bfff;
+      color: white;
+      transform: rotateY(180deg);
+    }
+
+    .buttons {
+      display: flex; /* Enable flexbox for buttons container */
+      justify-content: center; /* Center the buttons */
+      align-items: center; /* Vertically center items */
+      gap: 10px;
+      margin-top:15px; /* Add some space between buttons */
+    }
+
+    .buttons button {
+      position: relative; /* Needed for absolute positioning of icon */
+    }
+
+    .translate-icon {
+      position: absolute;
+      top: 50%; /* Vertically center */
+      right: 10px; /* Position on the right */
+      transform: translateY(-50%); /* Adjust vertical centering */
+      cursor: pointer;
+    }
+    .content {
+      display: none;
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+      text-align: left;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #bc9aff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width:49%;
+      height:49%
+    }
+    .translate-icon {
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    button:hover {
+      background-color: #574bff;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #cd83ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: black;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    header .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header .logo span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6em;
+    }
+
+    nav a img {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+    .message-box {
+            display: none;
+            text-align: center;
+            background: #dff0d8; /* Green */
+            color: green;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .back-button {
+    display: block;
+    margin: 30px auto; /* Centers horizontally */
+    padding: 10px 20px;
+    background-color: #8d1388c0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 20%;
+}
+
+    .card-icon {
+      margin-right: 10px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Theervu Kural Logo">
+      <span>Theervu Kural</span>
+    </div>
+    <nav>
+      <a href="dashboard.html">
+        <img src="images/home.png" alt="Home">
+        Home
+      </a>
+      <a href="gallery.html">
+        <img src="images/gallery.png" alt="Gallery">
+        Gallery
+      </a>
+      <a href="contact.html">
+        <img src="images/contact.png" alt="Contact">
+        Contact
+      </a>
+      <a href="#" onclick="logoutUser()">
+        <img src="images/logout.png" alt="Logout">
+        Logout
+      </a>
+      <a href="profile.html">
+        <img src="images/profilee.png" alt="Profile">
+        Profile
+      </a>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="header">Coimbatore</div>
+    <div class="image-map">
+      <img 
+        src="https://entartica.com/wp-content/uploads/2022/08/8-Best-Places-to-Visit-In-Coimbatore.webp" 
+        alt="Cuddalore Image" 
+        class="banner-image"
+      >
+      <div id="map" class="map"></div>
+    </div>
+    <div class="cards">
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="images/pop.png" alt="Population Icon" width="30" height="30" class="card-icon">
+              Population
+            </div>
+            <div class="card-back">12345678 Members</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="images/area.png" alt="Area Icon" width="30" height="30" class="card-icon">
+              Area
+            </div>
+            <div class="card-back">2500 sq.km</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="images/dist.png" alt="District HQ Icon" width="30" height="30" class="card-icon">
+              District HQ
+            </div>
+            <div class="card-back">Coimbatore</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="images/web.png" alt="Website Icon" width="30" height="30" class="card-icon">
+              Visit Website
+            </div>
+            <div class="card-back">
+              <a href="https://cuddalore.nic.in/" target="_blank" style="color: white; text-decoration: none;">
+                Visit
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="images/lang.png" alt="Language Icon" width="30" height="30" class="card-icon">
+              Language
+            </div>
+            <div class="card-back">Tamil</div>
+          </div>
+        </div>
+      </div>
+      
+    
+    <div class="container">
+        <div class="buttons">
+          <button onclick="showContent('history')">
+            History and Geography
+            <span class="translate-icon" onclick="toggleLanguage('history')">
+              <img src="images/translate.png" alt="History Icon" width="40" height="40">
+            </span>
+          </button>
+          <button onclick="showContent('tourism')">
+            Tourism
+            <span class="translate-icon" onclick="toggleLanguage('tourism')">
+              <img src="images/translate.png" alt="Tourism Icon" width="40" height="40">
+            </span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="content-wrapper">  <div id="history" class="content">
+          <h2>History and Geography</h2>
+          <p id="history-text">
+            Coimbatore, also known as Kovai, is one of the largest cities in Tamil Nadu and a major industrial hub. It has a rich history dating back to the Sangam period and was ruled by the Cheras, Cholas, and Vijayanagara Empire. The city is located on the banks of the Noyyal River and is surrounded by the Western Ghats, making it a pleasant place with a moderate climate. Coimbatore is famous for its textile industry and is often called the "Manchester of South India." The city also has a strong agricultural base, supported by its fertile lands and favorable weather.
+          </p>
+        </div>
+        <div class="message-box" id="logout-message"></div>
+  
+        <div id="tourism" class="content">
+          <h2>Tourism</h2>
+          <p id="tourism-text">
+            Coimbatore is home to several popular tourist destinations. The Adiyogi Shiva Statue, a massive 112-foot statue, is a spiritual and architectural marvel. Marudhamalai Temple, dedicated to Lord Murugan, is located on a hill and offers scenic views. The VOC Park and Zoo is a family-friendly spot with a variety of animals and attractions. Siruvani Waterfalls, known for its pure and sweet water, is a serene natural retreat. Dhyanalinga, a meditation center, is another spiritual destination attracting visitors from around the world.
+          </p>
+        </div>
+      </div>  </div>
+      <button class="back-button" onclick="goBack()">Back</button>
+  
+  <script>
+    const translations = {
+  history: {
+    en: "Coimbatore, also known as Kovai, is one of the largest cities in Tamil Nadu and a major industrial hub. It has a rich history dating back to the Sangam period and was ruled by the Cheras, Cholas, and Vijayanagara Empire. The city is located on the banks of the Noyyal River and is surrounded by the Western Ghats, making it a pleasant place with a moderate climate. Coimbatore is famous for its textile industry and is often called the Manchester of South India. The city also has a strong agricultural base, supported by its fertile lands and favorable weather.",
+    ta: "கோயம்புத்தூர், கோவை என்றும் அழைக்கப்படுகிறது, தமிழ்நாட்டின் பெரிய நகரங்களில் ஒன்றாகவும், தொழில் மையமாகவும் விளங்குகிறது. சங்க காலத்திலிருந்து இது செரர்கள், சோழர்கள், விஜயநகர பேரரசர்களால் ஆளப்பட்டது. நொய்யல் ஆற்றின் கரையில் அமைந்துள்ள இது மேற்கு தொடர்ச்சி மலைகளால் சூழப்பட்டதால் மிதமான காலநிலையை கொண்டுள்ளது. கோயம்புத்தூர் ஆடைத்தொழில் மூலம் தென்னிந்தியாவின் மான்செஸ்டர் என அழைக்கப்படுகிறது. இந்நகரம் விவசாயத்திற்கும் புகழ் பெற்றதாக இருந்து, வளமான மண் மற்றும் சிறந்த காலநிலை இதற்கு உதவியாக இருக்கின்றன. "
+  },
+  tourism: { // Corrected spelling!
+    en: "Coimbatore is home to several popular tourist destinations. The Adiyogi Shiva Statue, a massive 112-foot statue, is a spiritual and architectural marvel. Marudhamalai Temple, dedicated to Lord Murugan, is located on a hill and offers scenic views. The VOC Park and Zoo is a family-friendly spot with a variety of animals and attractions. Siruvani Waterfalls, known for its pure and sweet water, is a serene natural retreat. Dhyanalinga, a meditation center, is another spiritual destination attracting visitors from around the world.",
+    ta: "கோயம்புத்தூரில் பல பிரபலமான சுற்றுலாத் தலங்கள் உள்ளன. 112 அடி உயரம் கொண்ட அதியோகி சிவன் சிலை ஆன்மீகத்திற்கும், சிற்பக்கலைக்கும் ஒரு அதிசயமாக உள்ளது. மலையிலுள்ள மருதமலை முருகன் கோவில் அழகான காட்சிகளை வழங்குகிறது. வியோசி பூங்கா மற்றும் உயிரியல் பூங்கா குடும்பத்தினருக்கான சிறந்த இடமாக உள்ளது. இனிமையான நீருக்குப் பெயர் பெற்ற சிறுவாணி அருவி அமைதியான இயற்கை சுற்றுலா தலமாக உள்ளது. தியானலிங்கம் ஆன்மீக மையமாக இருந்து, உலகம் முழுவதிலிருந்தும் பயணிகளை ஈர்க்கிறது."
+  }
+};
+
+    let currentLang = "en";
+
+    function toggleLanguage(section) {
+      currentLang = currentLang === "en" ? "ta" : "en";
+      document.getElementById(section + "-text").innerText = translations[section][currentLang];
+      document.getElementById(section + "-text").innerText = tourism[section][currentLang];
+    }
+  </script>
+  <script>
+    function initMap() {
+        const location = { lat: 11.0168, lng: 76.9558 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 10,
+        center: location,
+      });
+      new google.maps.Marker({
+        position: location,
+        map: map,
+      });
+    }
+    function showContent(id) {
+      const contents = document.querySelectorAll('.content');
+      contents.forEach(content => content.style.display = 'none'); // Hide all contents
+      document.getElementById(id).style.display = 'block'; // Show the selected content
+    }
+
+    function showContent(id) {
+      const contents = document.querySelectorAll('.content');
+      contents.forEach(content => content.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+    // Logout function
+    function logoutUser() {
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "landing.html";
+    }
+}
+function goBack() {
+            window.location.href = "dashboard.html"; // Navigate to poll.html
+        }
+        function logoutUser() {
+            // Show custom message
+            const messageBox = document.getElementById("logout-message");
+            messageBox.textContent = "You have been logged out successfully!";
+            messageBox.style.display = "block";
+
+            // Clear any stored user session data
+            localStorage.removeItem("user");
+            sessionStorage.clear();
+
+            // Hide message and redirect after a short delay
+            setTimeout(() => {
+                messageBox.style.display = "none";
+                window.location.href = "landing.html";
+            }, 2000);
+        }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-S3DIud4-b9h9dVs4hnlVBGMfr_TtHx0&callback=initMap" async defer></script>
+</body>
+</html>
