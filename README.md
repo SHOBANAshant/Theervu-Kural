@@ -52,4 +52,4 @@ Developed by **Shobana & Team** – Contributions are welcome!
 Licensed under the **MIT License** – Free to use, modify, and distribute.  
 
 ---
-🔗 [Click here to see the demo](https://theervukural.netlify.app/)
+
